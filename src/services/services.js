@@ -673,7 +673,7 @@ export const SERVICES = {
         request(POST, callback);
     },
 
-    FetchMessageSentences(site, originalSource, bbox, datetimeSelection, timespanType, limit, offset, filteredEdges, langCode, sourceFilter, mainTerm, fulltextTerm, coordinates, callback) {
+    FetchMessageSentences(site, originalSource, bbox, datetimeSelection, timespanType, limit, offset, filteredEdges, langCode, sourceFilter, mainTerm, fulltextTerm, placeId, callback) {
         let formatter = Actions.constants.TIMESPAN_TYPES[timespanType];
         let dates = momentGetFromToRange(datetimeSelection, formatter.format, formatter.rangeFormat);
         let fromDate = dates.fromDate, toDate = dates.toDate;
@@ -704,14 +704,14 @@ export const SERVICES = {
 
             let query, variables;
 
-            if (coordinates && coordinates.length === 2) {
+            if (placeId) {
                 query = `  ${fragmentView}
-                       query ByLocation($site: String!, $originalSource: String, $coordinates: [Float]!, $filteredEdges: [String]!, $langCode: String!, $limit: Int!, $offset: Int!, $fromDate: String!, $toDate: String!, $sourceFilter: [String], $fulltextTerm: String) { 
-                             byLocation(site: $site, originalSource: $originalSource, coordinates: $coordinates, filteredEdges: $filteredEdges, langCode: $langCode, limit: $limit, offset: $offset, fromDate: $fromDate, toDate: $toDate, sourceFilter: $sourceFilter, fulltextTerm: $fulltextTerm) {
-                                ...FortisDashboardView 
+                       query ByLocation($site: String!, $originalSource: String, $coordinates: [Float]!, $filteredEdges: [String]!, $langCode: String!, $limit: Int!, $offset: Int!, $fromDate: String!, $toDate: String!, $sourceFilter: [String], $fulltextTerm, $mainTerm: String) {
+                             byLocation(site: $site, originalSource: $originalSource, placeId: $placeId, filteredEdges: $filteredEdges, langCode: $langCode, limit: $limit, offset: $offset, fromDate: $fromDate, toDate: $toDate, sourceFilter: $sourceFilter, fulltextTerm: $fulltextTerm, mainTerm: $mainTerm) {
+                                ...FortisDashboardView
                             }
                         }`;
-                variables = { site, coordinates, filteredEdges, langCode, limit, offset, fromDate, toDate, sourceFilter, fulltextTerm };
+                variables = { site, placeId, filteredEdges, langCode, limit, offset, fromDate, toDate, sourceFilter, fulltextTerm, mainTerm };
             } else {
                 query = `  ${fragmentView}
                        query ByBbox($site: String!, $originalSource: String, $bbox: [Float]!, $mainTerm: String, $filteredEdges: [String]!, $langCode: String!, $limit: Int!, $offset: Int!, $fromDate: String!, $toDate: String!, $sourceFilter: [String], $fulltextTerm: String) { 
