@@ -243,16 +243,10 @@ export const ActivityFeed = React.createClass({
   fetchSentences(requestPayload, callback){
       let {mainEdge, timespanType, searchValue, limit, offset, edges, siteKey,
            categoryType, filteredSource, bbox, datetimeSelection, originalSource} = requestPayload;
-      let location = [];
-
-      if(categoryType === "Location"){
-          mainEdge = undefined;
-          location = this.state.selectedLocationCoordinates;
-      }
 
       SERVICES.FetchMessageSentences(siteKey, originalSource, bbox, datetimeSelection, timespanType, 
                                      limit, offset, edges, DEFAULT_LANGUAGE, Actions.DataSources(filteredSource), 
-                                     mainEdge, searchValue, location, callback);
+                                     mainEdge, searchValue, this.state.selectedLocationId, callback);
   },
 
   renderDataSourceTabs(iconStyle){
