@@ -220,12 +220,14 @@ export const ActivityFeed = React.createClass({
   },
 
   getInitialState() {
-        return {
-            elements: [],
-            filteredSource: "all",
-            processedEventids: new Set(),
-            isInfiniteLoading: false
-        }
+    this.lastRenderedElementLength = 0;
+
+    return {
+        elements: [],
+        filteredSource: "all",
+        processedEventids: new Set(),
+        isInfiniteLoading: false
+    }
   },
 
   handleInfiniteLoad() {
@@ -380,10 +382,10 @@ export const ActivityFeed = React.createClass({
 
   processNewsFeed(filteredSources){
       const params = {...filteredSources, limit: OFFSET_INCREMENT};
-      const elements = this.state.elements;
+      const { pageState, elements } = this.state;
 
       //if the rendered items are less than the increment count then avoid unnecessary service calls.
-      if((this.lastRenderedElementLength || 0) === 0 || (elements.length > 0 && elements.length % OFFSET_INCREMENT === 0)){
+      if(pageState || this.lastRenderedElementLength === 0){
         this.setState({
             isInfiniteLoading: true
         });
