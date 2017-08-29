@@ -122,11 +122,11 @@ export const SERVICES = {
 
         let query = `${visualizationChartFragments}
                      ${selectedTerm ? `${topSourcesFragment}` : ``}
-                      query PopularEdges($site: String!, $additionalTerms: String, $timespan: String!, $sourceFilter: [String], ${selectedTerm ? `$selectedTerm: String!, $limit: Int!,` : `,`} $fromDate: String!, $toDate: String!, $bbox: [Float], $zoomLevel: Int, $originalSource: String) {
+                      query PopularEdges($site: String!, $additionalTerms: String, $sourceFilter: [String], ${selectedTerm ? `$selectedTerm: String!, $limit: Int!,` : `,`} $fromDate: String!, $toDate: String!, $bbox: [Float], $zoomLevel: Int, $originalSource: String) {
                             timeSeries:timeSeries(site: $site, sourceFilter: $sourceFilter, fromDate: $fromDate, toDate: $toDate, mainEdge: $additionalTerms, bbox: $bbox, zoomLevel: $zoomLevel, originalSource: $originalSource){
                                                         ...FortisDashboardTimeSeriesView
                             },
-                            locations: popularLocations(site: $site, timespan: $timespan, sourceFilter: $sourceFilter, originalSource: $originalSource, mainEdge: $additionalTerms) {
+                            locations: popularLocations(site: $site, fromDate: $fromDate, toDate: $toDate, sourceFilter: $sourceFilter, bbox: $bbox, originalSource: $originalSource, mainEdge: $additionalTerms) {
                                                         ...FortisDashboardLocationView
                             }${selectedTerm ? `, 
                             topSources(site: $site, fromDate: $fromDate, toDate: $toDate, limit: $limit, mainTerm: $selectedTerm, sourceFilter: $sourceFilter, bbox: $bbox, zoomLevel: $zoomLevel, originalSource: $originalSource) {
@@ -134,7 +134,7 @@ export const SERVICES = {
                             }`: ``}
                        }`;
 
-        let variables = { site, additionalTerms, selectedTerm, timespan, limit, sourceFilter, fromDate, toDate, bbox, zoomLevel, originalSource };
+        let variables = { site, additionalTerms, selectedTerm, limit, sourceFilter, fromDate, toDate, bbox, zoomLevel, originalSource };
         let host = process.env.REACT_APP_SERVICE_HOST;
         let POST = {
             url: `${host}/api/edges`,
@@ -239,8 +239,8 @@ export const SERVICES = {
             if (locations && locations.length > 0 && locations[0].length > 0) {
                 query = `${edgesFragmentView}
                      ${featuresFragmentView}
-                        query FetchAllEdgesAndTilesByLocations($site: String!, $locations: [[Float]]!, $filteredEdges: [String], $timespan: String!, $sourceFilter: [String], $fromDate: String, $toDate: String) {
-                            features: fetchTilesByLocations(site: $site, locations: $locations, filteredEdges: $filteredEdges, timespan: $timespan, sourceFilter: $sourceFilter, fromDate: $fromDate, toDate: $toDate) {
+                        query FetchAllEdgesAndTilesByLocations($site: String!, $zoomLevel: Int, $locations: [[Float]]!, $mainEdge: String, $filteredEdges: [String], $timespan: String!, $sourceFilter: [String], $fromDate: String, $toDate: String) {
+                            features: fetchTilesByLocations(site: $site, zoomLevel: $zoomLevel, locations: $locations, $mainEdge: $mainEdge, filteredEdges: $filteredEdges, timespan: $timespan, sourceFilter: $sourceFilter, fromDate: $fromDate, toDate: $toDate) {
                                 ...FortisDashboardViewFeatures
                             }
                             edges: fetchEdgesByLocations(site: $site, locations: $locations, timespan: $timespan, sourceFilter: $sourceFilter, fromDate: $fromDate, toDate: $toDate) {
@@ -248,7 +248,7 @@ export const SERVICES = {
                             }
                         }`;
 
-                variables = { site, locations, filteredEdges, timespan, sourceFilter };
+                variables = { site, locations, mainEdge, filteredEdges, timespan, zoomLevel, sourceFilter, fromDate, toDate };
             } else {
                 query = `${edgesFragmentView}
                     ${featuresFragmentView}
