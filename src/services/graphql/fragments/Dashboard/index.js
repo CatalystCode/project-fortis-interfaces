@@ -29,7 +29,6 @@ export const topSourcesFragment = `fragment FortisTopSourcesView on TopSourcesCo
     }`;
 
 export const termsFragment = ` fragment FortisPopularTermsView on TopTermsCollection {
-        runTime
         edges {
             name
             avgsentiment
@@ -38,7 +37,6 @@ export const termsFragment = ` fragment FortisPopularTermsView on TopTermsCollec
     }`;
 
 export const popularPlacesFragment = ` fragment FortisPopularPlacesView on TopPlacesCollection {
-        runTime
         edges {
             name
             placeid
@@ -66,3 +64,19 @@ export const conjunctiveTermsFragment = `fragment FortisDashboardConjunctiveTerm
             conjunctionterm
         }
     }`;
+
+export const heatmapFragment = `fragment FortisHeatmapViewFeatures on FeatureCollection {
+    features {
+        coordinates
+        properties {
+            mentions
+            date
+            avgsentiment
+            tile {
+                id
+                row
+                column
+            }
+        }
+    }
+ }`;

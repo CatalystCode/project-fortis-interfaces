@@ -1,7 +1,7 @@
 import Fluxxor from 'fluxxor';
 import React from 'react';
 import DoughnutChart from '../Graphics/DoughnutChart';
-import { Actions } from '../../actions/Actions';
+import { Actions } from '../../actions/Dashboard';
 import { Cell } from 'recharts';
 
 const FluxMixin = Fluxxor.FluxMixin(React);

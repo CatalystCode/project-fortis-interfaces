@@ -1,5 +1,5 @@
 export const siteSettingsFragment = `fragment FortisSiteDefinitionView on SiteCollection {
-        sites {
+        site {
             name
             properties {
                 targetBbox
@@ -9,6 +9,7 @@ export const siteSettingsFragment = `fragment FortisSiteDefinitionView on SiteCo
                 fbToken
                 mapzenApiKey
                 defaultLocation
+                defaultLanguage
                 storageConnectionString
                 featuresConnectionString
                 supportedLanguages

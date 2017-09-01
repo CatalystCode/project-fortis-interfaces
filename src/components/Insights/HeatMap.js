@@ -1,9 +1,9 @@
 import Fluxxor from 'fluxxor';
 import React from 'react';
-import { Actions } from '../../actions/Actions';
+import { Actions } from '../../actions/Dashboard';
+import { SERVICES } from '../../services/Dashboard';
 import weightedMean from '../../utils/WeightedMean';
 import eachLimit from 'async/eachLimit';
-import { SERVICES } from '../../services/services';
 import numeralLibs from 'numeral';
 import L from 'leaflet';
 import ProgressBar from 'react-progress-bar-plus';
@@ -105,9 +105,7 @@ export const HeatMap = React.createClass({
       const selectedLanguage = state.language;
       const translations = state.allEdges.get(DEFAULT_LANGUAGE);
       const mainSearchEntity = state.mainEdge;
-      const numberOfDisplayedTerms = 0;
       const maxTerms = 3;
-      let infoBoxInnerHtml = '';
       const infoHeaderText = "<h5>Review your selection below</h5>";
       const infoBoxIntro = `
       <span class="filterLabelType">
@@ -118,6 +116,9 @@ export const HeatMap = React.createClass({
           ${mainSearchEntity}
         </span>
       </div>`;
+
+      let infoBoxInnerHtml = '';
+      let numberOfDisplayedTerms = 0;
 
       if (filters.length > 0) {
         filters.forEach(filter => {
