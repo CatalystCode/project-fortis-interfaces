@@ -40,13 +40,19 @@ export const DataStore = Fluxxor.createStore({
             placeid: "",
             timeSeriesGraphData: {},
             popularLocations: [],
+<<<<<<< HEAD
             targetBbox: [],
+=======
+>>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
             popularTerms: [],
             topSources: [],
             trustedSources: [],
             supportedLanguages: [],
             termFilters: new Set(),
+<<<<<<< HEAD
             heatmapTileIds: [],
+=======
+>>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
             fullTermList: new Map(),
             bbox: [],
             zoomLevel: constants.HEATMAP_DEFAULT_ZOOM,
@@ -76,6 +82,7 @@ export const DataStore = Fluxxor.createStore({
 
     syncChartDataToStore(graphqlResponse){
         const { locations, topics, sources, timeSeries, conjunctiveterms } = graphqlResponse;
+<<<<<<< HEAD
         this.dataStore.popularLocations = locations && locations.edges ? locations.edges : [];
         this.dataStore.popularTerms = topics && topics.edges ? topics.edges : [];
         this.dataStore.conjunctivetopics = conjunctiveterms && conjunctiveterms.edges ? conjunctiveterms.edges : [];
@@ -85,6 +92,17 @@ export const DataStore = Fluxxor.createStore({
 
     intializeSettings(graphqlResponse) {
         const { terms, configuration, topics, timeSeries } = graphqlResponse;
+=======
+        this.dataStore.popularLocations = locations.edges;
+        this.dataStore.popularTerms = topics.edges;
+        this.dataStore.conjunctivetopics = conjunctiveterms.edges;
+        this.dataStore.topSources = sources.edges;
+        this.syncTimeSeriesData(timeSeries.edges);
+    },
+
+    intializeSettings(graphqlResponse) {
+        const { terms, configuration, topics } = graphqlResponse;
+>>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
         const { datetimeSelection, timespanType } = this.dataStore;
         const { defaultLanguage, logo, title, targetBbox, supportedLanguages, defaultZoomLevel } = configuration;
         const { fromDate, toDate } = convertDateValueToRange(datetimeSelection, timespanType);
@@ -97,7 +115,10 @@ export const DataStore = Fluxxor.createStore({
         this.dataStore.language = defaultLanguage;
         this.dataStore.zoomLevel = defaultZoomLevel;
         this.dataStore.bbox = targetBbox || [];
+<<<<<<< HEAD
         this.dataStore.targetBbox = targetBbox;
+=======
+>>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
         this.dataStore.supportedLanguages = supportedLanguages;
         this.dataStore.maintopic = topics.edges.length ? topics.edges[0].name : '';
         this.dataStore.settings = configuration;
@@ -127,6 +148,7 @@ export const DataStore = Fluxxor.createStore({
 
     syncTimeSeriesData(mutatedTimeSeries) {
         this.dataStore.timeSeriesGraphData = { labels: [], graphData: [] };
+<<<<<<< HEAD
         this.dataStore.heatmapTileIds = [];
 
         let test = [{ "date": "2017-08-30 17:00", "isis": 1, "bomb": 23, "car": 2, "fatalities": 2, "fear": 1 },
@@ -148,6 +170,21 @@ export const DataStore = Fluxxor.createStore({
             let sorted = Array.from(timeseriesMap.values()).concat(test).sort((a, b)=>moment(a.date).unix() > moment(b.date).unix());
             this.dataStore.timeSeriesGraphData.graphData = sorted;
             this.dataStore.heatmapTileIds = tiles;
+=======
+
+        if (mutatedTimeSeries && mutatedTimeSeries.graphData && mutatedTimeSeries.labels && mutatedTimeSeries.graphData.length) {
+            const { labels, graphData } = mutatedTimeSeries;
+            this.dataStore.timeSeriesGraphData = Object.assign({}, { labels });
+            
+            const timeseriesMap = makeMap(graphData, item=>item.date, item=>{
+                let timeSeriesEntry = {date: item.date};
+                timeSeriesEntry[item.name] = item.mentions;
+
+                return timeSeriesEntry;
+            });
+
+            this.dataStore.timeSeriesGraphData.graphData = Array.from(timeseriesMap.values());
+>>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
         }
     },
 

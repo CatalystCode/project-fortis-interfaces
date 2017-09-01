@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 function fetchTermFromMap(termMap, termLookup, selectedLanguage, defaultLanguage) {
     const name = termLookup.toLowerCase();
 
@@ -27,4 +28,14 @@ module.exports = {
     fetchTermFromMap,
     fromMapToArray,
     innerJoin
+=======
+function fetchTermFromMap(termMap, termLookup, selectedLanguage, defaultLanguage){
+    const name = termLookup.toLowerCase();
+
+    return termMap.get(name) || {name: name, translatedname: name};
+}
+
+module.exports = {
+    fetchTermFromMap
+>>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
 }

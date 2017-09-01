@@ -20,6 +20,7 @@ export const getConjunctiveTerms = `conjunctiveTerms(maintopic:$maintopic, bbox:
     ... FortisDashboardConjunctiveTermsView
 }`;
 
+<<<<<<< HEAD
 export const getHeatmapByTile = `heatmapFeaturesByTile(maintopic:$maintopic, tileid: $tileid, fromDate: $fromDate, toDate: $toDate, pipelinekeys: $pipelinekeys, zoomLevel:$zoomLevel, periodType: $periodType, externalsourceid: $externalsourceid, conjunctivetopics: $conjunctivetopics) {
     ...FortisHeatmapViewFeatures
 }`;
@@ -40,6 +41,28 @@ export const getTopSourcesQuery = `query TopSources($maintopic: String!, $bbox: 
     ${getTopSources}
 }`;
 
+=======
+export const getHeatmapByTile = `heatmapFeaturesByTile(maintopic:$maintopic, tiley: $tiley, tilex: $tilex, fromDate: $fromDate, toDate: $toDate, pipelinekeys: $pipelinekeys, zoomLevel:$zoomLevel, periodType: $periodType, externalsourceid: $externalsourceid, conjunctivetopics: $conjunctivetopics) {
+    ...FortisHeatmapViewFeatures
+}`;
+
+export const getOsmPlaces = `geofenceplaces(bbox: $bbox) {
+    {
+        placeid
+        name   
+        layer
+    }
+}`;
+
+export const getPopularPlaces = `topLocations(maintopic:$maintopic, bbox: $bbox, limit: $limit, fromDate: $fromDate, toDate: $toDate, pipelinekeys: $pipelinekeys, conjunctivetopics:$conjunctivetopics, periodType: $periodType, externalsourceid: $externalsourceid) {
+    ... FortisPopularPlacesView
+}`;
+
+export const getTopSourcesQuery = `query TopSources($maintopic: String!, $bbox: [Float]!, $zoomLevel: Int!, $conjunctivetopics: [String]!, $limit: Int!, $fromDate: String!, $toDate: String!, $topsourcespipelinekey: [String]!, $periodType: String!) {
+    ${getTopSources}
+}`;
+
+>>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
 
 export const getPopularTermsQuery = `query PopularTerms($bbox: [Float]!, $zoomLevel: Int!, $limit: Int!, $fromDate: String!, $toDate: String!, $pipelinekeys: [String]!, $periodType: String!, $externalsourceid: String!) {
     topics: ${getPopularTerms}
@@ -59,6 +82,10 @@ export const DashboardQuery = `query DashboardQuery($bbox: [Float]!, $zoomLevel:
                             locations: ${getPopularPlaces}
 }`;
 
+<<<<<<< HEAD
 export const getHeatmapQuery = `query FetchTileHeatmap($maintopic: String!, $tileid: String!, $zoomLevel: Int!, $fromDate: String!, $toDate: String!, $pipelinekeys: [String]!, $periodType: String!, $externalsourceid: String!, $conjunctivetopics: [String]!) {
+=======
+export const getHeatmapQuery = `query FetchTileHeatmap($maintopic: String!, $tiley: Int!, $tilex: Int!, $zoomLevel: Int!, $fromDate: String!, $toDate: String!, $pipelinekeys: [String]!, $periodType: String!, $externalsourceid: String!, $conjunctivetopics: [String]!) {
+>>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
         heatmap: ${getHeatmapByTile}
 }`;

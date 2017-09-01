@@ -1,5 +1,6 @@
 import React from 'react';
 import DataSelector from './DataSelector';
+<<<<<<< HEAD
 import HeatMap from './HeatMap';
 import SentimentTreeview from './SentimentTreeview';
 import GraphCard from '../Graphics/GraphCard';
@@ -8,6 +9,16 @@ import TimeSeriesGraph from './TimeSeriesGraph';
 import PopularTermsChart from './PopularTermsChart';
 import PopularLocationsChart from './PopularLocationsChart';
 import PopularSourcesChart from './PopularSourcesChart';
+=======
+import { HeatMap } from './HeatMap';
+import { SentimentTreeview } from './SentimentTreeview';
+import GraphCard from '../Graphics/GraphCard';
+import { ActivityFeed } from './ActivityFeed';
+import { TimeSeriesGraph } from './TimeSeriesGraph';
+import PopularTermsChart from './PopularTermsChart';
+import { PopularLocationsChart } from './PopularLocationsChart';
+import { TopSourcesChart } from './TopSourcesChart';
+>>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
 import ReactGridLayout from 'react-grid-layout';
 import { defaultLayout } from './Layouts';
 import 'react-grid-layout/css/styles.css';
@@ -24,9 +35,12 @@ export default class Dashboard extends React.Component {
   constructor(props) {
     super(props);
 
+<<<<<<< HEAD
     
     this.onResizeStop = this.onResizeStop.bind(this);
 
+=======
+>>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
     this.state = {
       contentRowHeight: 0,
       newsfeedResizedHeight: 0,
@@ -38,7 +52,11 @@ export default class Dashboard extends React.Component {
   }
 
   componentDidMount() {
+<<<<<<< HEAD
     const rowInitialHeight = document.getElementById("leafletMap") || { clientHeight: 0 };
+=======
+    const rowInitialHeight = document.getElementById("leafletMap") || {clientHeight: 0};
+>>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
     const contentAreaHeight = document.getElementById("contentArea");
     this.setState({ contentRowHeight: rowInitialHeight.clientHeight, contentAreaHeight: contentAreaHeight.clientHeight, mounted: true });
   }
@@ -77,9 +95,13 @@ export default class Dashboard extends React.Component {
         <div>
           <div id='leafletMap'></div>
           <HeatMap
+<<<<<<< HEAD
             targetBbox={this.props.settings.targetBbox}
             heatmapTileIds={this.props.heatmapTileIds}
             defaultZoom={parseInt(this.props.settings.defaultZoomLevel)}
+=======
+            height={HeatMapFullScreen ? contentAreaHeight : contentRowHeight}
+>>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
             {...this.filterLiterals() }
           />
         </div>
@@ -97,7 +119,10 @@ export default class Dashboard extends React.Component {
         <div id="newsfeed-container">
           {bbox.length ?
             <ActivityFeed
+<<<<<<< HEAD
               allSiteTopics={this.props.fullTermList}
+=======
+>>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
               infiniteScrollHeight={HeatMapFullScreen ? contentAreaHeight : newsfeedResizedHeight > 0 ? newsfeedResizedHeight : contentRowHeight}
               {...this.filterLiterals() }
             />
@@ -150,7 +175,11 @@ export default class Dashboard extends React.Component {
     return (
       <div key={'sources'} className="doughnutChart">
         <GraphCard cardHeader={cardHeader}>
+<<<<<<< HEAD
           <PopularSourcesChart
+=======
+          <TopSourcesChart
+>>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
             topSources={this.props.topSources}
             {...this.filterLiterals() }
           />
@@ -168,8 +197,11 @@ export default class Dashboard extends React.Component {
     return (
       <div key={'timeline'}>
           <TimeSeriesGraph
+<<<<<<< HEAD
             allSiteTopics={this.props.fullTermList}
             refreshDashboardFunction={()=>this.refreshDashboard()}
+=======
+>>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
             timeSeriesGraphData={this.props.timeSeriesGraphData}
             {...this.filterLiterals() }
           />
@@ -185,8 +217,11 @@ export default class Dashboard extends React.Component {
       <div key={'watchlist'}>
         <GraphCard>
           <SentimentTreeview
+<<<<<<< HEAD
             conjunctivetopics={this.props.conjunctivetopics}
             allSiteTopics={this.props.fullTermList}
+=======
+>>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
             height={HeatMapFullScreen ? contentAreaHeight : (watchlistResizedHeight > 0) ? watchlistResizedHeight : contentRowHeight}
             {...this.filterLiterals() }
           />
@@ -197,6 +232,7 @@ export default class Dashboard extends React.Component {
 
   renderedGridCards(heatMapFullScreen) {
 <<<<<<< HEAD
+<<<<<<< HEAD
     return heatMapFullScreen ? [this.watchlistComponent(), this.heatmapComponent(), this.newsfeedComponent()] :
       [this.topLocationsComponent(), this.topTopicsComponent(), this.topSourcesComponent(), this.timelineComponent(), this.watchlistComponent(), this.heatmapComponent()];//;, this.newsfeedComponent()];
   }
@@ -205,6 +241,12 @@ export default class Dashboard extends React.Component {
                                 [this.topLocationsComponent(), this.topTopicsComponent(), this.topSourcesComponent(), this.timelineComponent(), this.watchlistComponent(), this.heatmapComponent(), this.newsfeedComponent()];
   },
 >>>>>>> Integrating the V2 byBBox service
+=======
+    return [this.topTopicsComponent()];
+    //return heatMapFullScreen ? [this.watchlistComponent(), this.heatmapComponent(), this.newsfeedComponent()] :
+    //  [this.topLocationsComponent(), this.topTopicsComponent(), this.topSourcesComponent(), this.timelineComponent(), this.watchlistComponent(), this.heatmapComponent(), this.newsfeedComponent()];
+  }
+>>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
 
   render() {
     const HeatMapFullScreen = this.state.heatmapToggleText !== DefaultToggleText;
@@ -223,11 +265,17 @@ export default class Dashboard extends React.Component {
                 <ResponsiveReactGridLayout
                   measureBeforeMount={false}
                   className="layout"
+<<<<<<< HEAD
                   isDraggable={false}
                   isDraggable={false}
                   layouts={HeatMapFullScreen ? defaultLayout.layoutCollapsed : defaultLayout.layout}
                   cols={{ lg: 24, md: 20, sm: 12, xs: 8, xxs: 4 }}
                   rowHeight={28}
+=======
+                  layouts={HeatMapFullScreen ? defaultLayout.layoutCollapsed : defaultLayout.layout}
+                  cols={{ lg: 24, md: 20, sm: 12, xs: 8, xxs: 4 }}
+                  rowHeight={32}
+>>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
                   onResizeStop={this.onResizeStop}
                   breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
                   useCSSTransforms={this.state.mounted}>

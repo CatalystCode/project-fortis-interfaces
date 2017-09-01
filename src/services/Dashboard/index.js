@@ -21,10 +21,18 @@ function fetchGqlData(endpoint, gqlQueryBody, callback) {
 
 export const SERVICES = {
     getChartVisualizationData(periodType, maintopic, dataSource, fromDate, toDate, bbox,
+<<<<<<< HEAD
         zoomLevel, conjunctivetopics, externalsourceid, timeseriesmaintopics, callback) {
         const timePeriodType = constants.TIMESPAN_TYPES[periodType].timeseriesType;
         const pipelinekeys = [dataSource];
         const topsourcespipelinekey = ActionMethods.DataSources(dataSource);
+=======
+        zoomLevel, conjunctivetopics, externalsourceid, callback) {
+        const timePeriodType = periodType === "year" ? constants.ANNUAL_TIMESERIES_PERIOD : constants.DEFAULT_TIMESERIES_PERIOD;
+        const pipelinekeys = [dataSource];
+        const topsourcespipelinekey = ActionMethods.DataSources(dataSource);
+        const timeseriesmaintopics = maintopic ? [maintopic] : [];
+>>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
         const limit = 5;
         const gqlEndpoint = 'edges';
 
@@ -61,14 +69,24 @@ export const SERVICES = {
         fetchGqlData(gqlEndpoint, { variables, query }, callback);
     },
 
+<<<<<<< HEAD
     getHeatmapTiles(fromDate, toDate, zoomLevel, maintopic, tileid, periodType, 
                     pipelinekeys, externalsourceid, conjunctivetopics, callback) {
         console.log(`processing tile request [${maintopic}, ${fromDate}, ${toDate}, ${tileid}}]`)
+=======
+    getHeatmapTiles(fromDate, toDate, zoomLevel, maintopic, tilex, tiley, periodType, 
+                    pipelinekeys, externalsourceid, conjunctivetopics, callback) {
+        console.log(`processing tile request [${maintopic}, ${fromDate}, ${toDate}, ${tilex}, ${tiley}}]`)
+>>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
         
         const query = `${DashboardFragments.heatmapFragment}
                        ${DashboardQueries.getHeatmapQuery}`;
         const gqlEndpoint = 'tiles';
+<<<<<<< HEAD
         const variables = { fromDate, toDate, zoomLevel, maintopic, tileid, periodType, 
+=======
+        const variables = { fromDate, toDate, zoomLevel, maintopic, tilex, tiley, periodType, 
+>>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
             pipelinekeys, externalsourceid, conjunctivetopics
         };
 
@@ -153,13 +171,21 @@ export const SERVICES = {
         request(POST, callback);
     },
 
+<<<<<<< HEAD
     FetchMessageSentences(externalsourceid, bbox, zoomLevel, fromDate, toDate, limit, pageState, conjunctivetopics, pipelinekeys, fulltextTerm, callback) {
+=======
+    FetchMessageSentences(externalsourceid, bbox, fromDate, toDate, limit, pageState, conjunctivetopics, pipelinekeys, fulltextTerm, callback) {
+>>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
         if (bbox && Array.isArray(bbox) && bbox.length === 4) {
             const gqlEndpoint = 'Messages';
             const query = ` ${DashboardFragments.getMessagesByBbox}
                             ${DashboardQueries.getMessagesByBbox}`;
 
+<<<<<<< HEAD
             const variables = { bbox, conjunctivetopics, zoomLevel, limit, pageState, fromDate, toDate, externalsourceid, pipelinekeys, fulltextTerm };
+=======
+            const variables = { bbox, conjunctivetopics, limit, pageState, fromDate, toDate, externalsourceid, pipelinekeys, fulltextTerm };
+>>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
 
             fetchGqlData(gqlEndpoint, { variables, query }, callback);
         } else {

@@ -15,12 +15,20 @@ export const EntryPage = React.createClass({
   propertyLiterals() {
     const { dataSource, bbox, termFilters, maintopic, externalsourceid, datetimeSelection, 
             fromDate, toDate, language, zoomLevel, settings, timespanType, 
+<<<<<<< HEAD
             conjunctivetopics, heatmapTileIds, timeSeriesGraphData, popularLocations, popularTerms,
+=======
+            conjunctivetopics, timeSeriesGraphData, popularLocations, popularTerms,
+>>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
             topSources, trustedSources, fullTermList } = this.state;
 
     return Object.assign({}, { dataSource, maintopic, termFilters, bbox, 
                                externalsourceid, datetimeSelection, fromDate, toDate, language,
+<<<<<<< HEAD
                                zoomLevel, settings, timespanType, heatmapTileIds, 
+=======
+                               zoomLevel, settings, timespanType, 
+>>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
                                conjunctivetopics, timeSeriesGraphData, popularLocations, popularTerms,
                                topSources, trustedSources, fullTermList });
   },
