@@ -40,9 +40,10 @@ export const popularPlacesFragment = ` fragment FortisPopularPlacesView on TopPl
         edges {
             name
             placeid
-            coordinates
             layer
+            bbox
             mentions
+            avgsentiment
         }
     }`;
 
@@ -53,6 +54,7 @@ export const visualizationChartFragment = `fragment FortisDashboardTimeSeriesVie
         graphData {
             name
             mentions
+            avgsentiment
             date
         }
     }`;

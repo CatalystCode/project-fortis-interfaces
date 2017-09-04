@@ -7,7 +7,7 @@ import MenuItem from 'material-ui/MenuItem';
 import moment from 'moment';
 import DataSourceFilter from './DataSourceFilter';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import { momentGetFromToRange } from '../../utils/Utils.js';
+import { momentGetFromToRange, momentToggleFormats } from '../../utils/Utils.js';
 import '../../styles/Insights/DataSelector.css';
 import 'react-widgets/dist/css/react-widgets.css';
 import '../../styles/Header.css';
@@ -20,6 +20,8 @@ const TimeSelectionOptions = [
     { label: 'Last Week', timeType: 'week', subtractFromNow: 1 },
     { label: 'This Month', timeType: 'month', subtractFromNow: 0 },
     { label: 'Last Month', timeType: 'month', subtractFromNow: 1 },
+    { label: 'This Year', timeType: 'year', subtractFromNow: 0 },
+    { label: 'Last Year', timeType: 'year', subtractFromNow: 1 },
     { label: 'Select Date', timeType: 'customDate', subtractFromNow: 0 },
     { label: 'Select Month', timeType: 'customMonth', subtractFromNow: 0 }
 ];
@@ -49,50 +51,56 @@ export default class DataSelector extends React.Component {
         const dates = momentGetFromToRange(timeSelection, formatter.format, formatter.rangeFormat);
         const { fromDate, toDate } = dates;
         const { dataSource, maintopic, bbox, zoomLevel, termFilters, externalsourceid } = this.props;
+        const dateType = this.customDateEntered(timeType) ? formatter.rangeFormat : timeType;
 
-        this.props.flux.actions.DASHBOARD.reloadVisualizationState(fromDate, toDate, timeSelection, timeType, dataSource, maintopic, bbox, zoomLevel, Array.from(termFilters), externalsourceid);
+        this.props.flux.actions.DASHBOARD.reloadVisualizationState(fromDate, toDate, timeSelection, dateType, dataSource, maintopic, bbox, zoomLevel, Array.from(termFilters), externalsourceid);
     }
 
     handleChange(event, index, value) {
-        const timeSelectionIndex = this.customDateEntered() ? index : index + 1;
-        const selectionOption = TimeSelectionOptions[timeSelectionIndex];
-
-        if (selectionOption.timeType.startsWith("custom")) {
-            this.setState({ timeType: value });
-        } else {
+        let timeSelectionIndex = this.customDateEntered(this.state.timeType)? index : index + 1;
+        var selectionOption = TimeSelectionOptions[timeSelectionIndex];
+        
+        if(selectionOption.timeType.startsWith("custom")){
+            this.setState({timeType: value});
+        }else{
             this.refreshDashboard(value, selectionOption.timeType);
         }
     }
 
     handleDatePickerChange(dateObject, dateStr) {
-        this.refreshDashboard(dateStr, this.state.timeType);
-        this.setState({ timeType: '' });
+        let formatter = constants.TIMESPAN_TYPES[this.state.timeType];
+        this.refreshDashboard(momentToggleFormats(dateStr, formatter.reactWidgetFormat, formatter.format), this.state.timeType);
+        this.setState({ timeType: 'customDatePlaceholder' });
     }
 
-    customDateEntered() {
-        return this.props.timespanType && (this.props.timespanType.startsWith('custom'));
+    customDateEntered(dateType) {
+        return dateType && dateType.startsWith("custom");
     }
 
-    predefinedDateOptions() {
-        return TimeSelectionOptions.filter(option=>option.label).map((timeOption, index) => {
-            let timeValue;
-            let label = timeOption.label;
+    predefinedDateOptions(self) {
+            return TimeSelectionOptions.map((timeOption, index) => {
+                let timeValue;
+                let label = timeOption.label;
 
-            if (timeOption.timeType === 'customDatePlaceholder') {
-                timeValue = this.state.datetimeSelection;
-                label = timeValue;
-                //format the pre defined date option
-            } else if (!timeOption.timeType.startsWith("custom")) {
-                timeValue = moment().subtract(timeOption.subtractFromNow, timeOption.timeType)
-                .format(constants.TIMESPAN_TYPES[timeOption.timeType].format);
-                //Either the custom date or custom date+time options
-            } else {
-                label = <div><i className="fa fa-calendar"></i>&nbsp;{label}</div>;
-                timeValue = timeOption.timeType;
-            }
+                //if there is no custom date entered then skip adding the customDatePlaceholder option
+                if(!this.customDateEntered(self.state.timeType) && timeOption.timeType === 'customDatePlaceholder'){
+                    return false;
+                //if there is a custom date entered then display it in the list
+                } else if (timeOption.timeType === 'customDatePlaceholder') {
+                    timeValue = self.props.datetimeSelection;
+                    label = timeValue;
+                    //format the pre defined date option
+                } else if (!timeOption.timeType.startsWith("custom")) {
+                    timeValue = moment().subtract(timeOption.subtractFromNow, timeOption.timeType)
+                    .format(constants.TIMESPAN_TYPES[timeOption.timeType].format);
+                    //Either the custom date or custom date+time options
+                } else {
+                    label = <div><i className="fa fa-calendar"></i>&nbsp;{label}</div>;
+                    timeValue = timeOption.timeType;
+                }
 
-            return <MenuItem key={`${timeValue}-${index}`} value={timeValue} primaryText={label} />
-        });
+                return <MenuItem key={`${timeValue}-${index}`} value={timeValue} primaryText={label} />
+            });
     }
 
     render() {
@@ -111,7 +119,7 @@ export default class DataSelector extends React.Component {
                                 labelStyle={{ fontWeight: 600, color: '#2ebd59' }}
                                 value={this.props.datetimeSelection}
                                 onChange={(event, index, value)=>this.handleChange(event, index, value)}>
-                                {self.predefinedDateOptions()}
+                                {self.predefinedDateOptions(self)}
                             </SelectField>
                             :
                             <DateTimePicker value={new Date()}
@@ -122,7 +130,7 @@ export default class DataSelector extends React.Component {
                     </div>
                     <div>
                         {showTimePicker || showDatePicker || showMonthSelector ?
-                            <button id="cancel-button" type="button" className="btn btn-danger btn-sm" onClick={this.cancelDateTimePicker}>
+                            <button id="cancel-button" type="button" className="btn btn-danger btn-sm" onClick={()=>this.cancelDateTimePicker()}>
                                 <span className="fa fa-times-circle-o" aria-hidden="true"></span>&nbsp;Cancel
                 </button>
                             : undefined

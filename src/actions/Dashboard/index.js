@@ -20,9 +20,10 @@ function fetchCommonTerms(settings, callback, timespanType, fromDate, toDate) {
 }
 
 function fetchFullChartData(fromDate, toDate, periodType, dataSource, maintopic,
-    bbox, zoomLevel, conjunctivetopics, externalsourceid, callback) {
+    bbox, zoomLevel, conjunctivetopics, externalsourceid, timeseriesmaintopics, callback) {
 
-    DashboardServices.getChartVisualizationData(periodType, maintopic, dataSource, fromDate, toDate, bbox, zoomLevel, conjunctivetopics, externalsourceid,
+    DashboardServices.getChartVisualizationData(periodType, maintopic, dataSource, fromDate, toDate, 
+        bbox, zoomLevel, conjunctivetopics, externalsourceid, timeseriesmaintopics, 
         (err, response, body) => ResponseHandler(err, response, body, callback));
 }
 
@@ -31,9 +32,9 @@ function fetchInitialChartDataCB(resultUnion, fromDate, toDate, timespanType, ca
 
     if (topics.edges.length) {
         const maintopic = topics.edges[0].name;//grab the most commonly mentioned term
-
+        //we're defaulting the timeseriesmaintopics to the most popular on the initial load so we can show all in the timeseries
         fetchFullChartData(fromDate, toDate, timespanType, constants.DEFAULT_DATA_SOURCE, maintopic, configuration.targetBbox,
-            configuration.defaultZoomLevel, [], constants.DEFAULT_EXTERNAL_SOURCE,
+            configuration.defaultZoomLevel, [], constants.DEFAULT_EXTERNAL_SOURCE, topics.edges.map(populartopic=>populartopic.name), 
             (err, chartData) => {
                 const response = Object.assign({}, chartData, resultUnion);
 
@@ -47,6 +48,10 @@ function fetchInitialChartDataCB(resultUnion, fromDate, toDate, timespanType, ca
     } else {
         callback(null, resultUnion);
     }
+}
+
+function isMostPopularTopicSelected(maintopic, popularTopics){
+    return popularTopics.length && popularTopics[0].name === maintopic;
 }
 
 const methods = {
@@ -81,8 +86,11 @@ const methods = {
     },
     reloadVisualizationState(fromDate, toDate, datetimeSelection, periodType, dataSource, maintopic, bbox, zoomLevel, conjunctivetopics, externalsourceid) {
         let self = this;
-        
-        fetchFullChartData(fromDate, toDate, periodType, dataSource, maintopic, bbox, zoomLevel, [], constants.DEFAULT_EXTERNAL_SOURCE, (err, chartData) => {
+        const dataStore = this.flux.stores.DataStore.dataStore;
+
+        let timeserieslabels = isMostPopularTopicSelected(maintopic, dataStore.popularTerms) ? dataStore.popularTerms.map(topic=>topic.name) : [maintopic];
+
+        fetchFullChartData(fromDate, toDate, periodType, dataSource, maintopic, bbox, zoomLevel, [], constants.DEFAULT_EXTERNAL_SOURCE, timeserieslabels, (err, chartData) => {
             if (!err) {
                 let mutatedFilters = { fromDate, toDate, datetimeSelection, periodType, dataSource, maintopic, externalsourceid, zoomLevel, bbox };
                 mutatedFilters.selectedconjunctiveterms = conjunctivetopics;

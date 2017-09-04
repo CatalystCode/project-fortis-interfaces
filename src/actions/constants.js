@@ -40,6 +40,10 @@ module.exports = {
     MOMENT_FORMATS: {
         "timeScaleDate": "MM/DD/YY HH:00"
     },
+    CHART_STYLE: {
+        BG_FILL: "#30303d",
+        COLORS: ['#CD0D74', '#2f4074', '#7e6596', '#fdd400', '#84b761', '#b6d2ff']
+    },
     SENTIMENT_COLOR_MAPPING : {
         "negative": "red",
         "neutral": "yellow",

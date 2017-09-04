@@ -21,11 +21,10 @@ function fetchGqlData(endpoint, gqlQueryBody, callback) {
 
 export const SERVICES = {
     getChartVisualizationData(periodType, maintopic, dataSource, fromDate, toDate, bbox,
-        zoomLevel, conjunctivetopics, externalsourceid, callback) {
+        zoomLevel, conjunctivetopics, externalsourceid, timeseriesmaintopics, callback) {
         const timePeriodType = periodType === "year" ? constants.ANNUAL_TIMESERIES_PERIOD : constants.DEFAULT_TIMESERIES_PERIOD;
         const pipelinekeys = [dataSource];
         const topsourcespipelinekey = ActionMethods.DataSources(dataSource);
-        const timeseriesmaintopics = maintopic ? [maintopic] : [];
         const limit = 5;
         const gqlEndpoint = 'edges';
 

@@ -27,7 +27,7 @@ export default class Header extends React.Component {
                      {
                          logo ? <img role="presentation" src={logo.startsWith("http:") ? logo : `${process.env.PUBLIC_URL}/images/${logo}`} style={{display: 'inline'}} height="48" /> 
                             : undefined 
-                     }                     
+                     }  
                      <span className="brandLabel">{title}</span>
                   </a>
               </div>
@@ -40,7 +40,7 @@ export default class Header extends React.Component {
                                 value={language}
                                 autoWidth={true}
                                 style={{maxWidth:'60px'}}
-                                onChange={this.changeLanguage}>
+                                onChange={(event, index, value)=>this.changeLanguage(event, index, value)}>
                                 {this.props.supportedLanguages.map(lang => <MenuItem key={lang} value={lang} primaryText={lang} />)}
                     </SelectField>
                   </ul>

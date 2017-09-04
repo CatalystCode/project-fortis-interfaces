@@ -4,10 +4,10 @@ import { HeatMap } from './HeatMap';
 import { SentimentTreeview } from './SentimentTreeview';
 import GraphCard from '../Graphics/GraphCard';
 import { ActivityFeed } from './ActivityFeed';
-import { TimeSeriesGraph } from './TimeSeriesGraph';
+import TimeSeriesGraph from './TimeSeriesGraph';
 import PopularTermsChart from './PopularTermsChart';
-import { PopularLocationsChart } from './PopularLocationsChart';
-import { TopSourcesChart } from './TopSourcesChart';
+import PopularLocationsChart from './PopularLocationsChart';
+import PopularSourcesChart from './PopularSourcesChart';
 import ReactGridLayout from 'react-grid-layout';
 import { defaultLayout } from './Layouts';
 import 'react-grid-layout/css/styles.css';
@@ -35,7 +35,7 @@ export default class Dashboard extends React.Component {
   }
 
   componentDidMount() {
-    const rowInitialHeight = document.getElementById("leafletMap") || {clientHeight: 0};
+    const rowInitialHeight = document.getElementById("leafletMap") || { clientHeight: 0 };
     const contentAreaHeight = document.getElementById("contentArea");
     this.setState({ contentRowHeight: rowInitialHeight.clientHeight, contentAreaHeight: contentAreaHeight.clientHeight, mounted: true });
   }
@@ -144,7 +144,7 @@ export default class Dashboard extends React.Component {
     return (
       <div key={'sources'} className="doughnutChart">
         <GraphCard cardHeader={cardHeader}>
-          <TopSourcesChart
+          <PopularSourcesChart
             topSources={this.props.topSources}
             {...this.filterLiterals() }
           />
@@ -154,18 +154,18 @@ export default class Dashboard extends React.Component {
   }
 
   timelineComponent() {
-    const cardHeader = {
-      title: "Event Timeseries"
+    const reloadTimelineWithNewRange = (selection, callback) => {
+      callback(selection);
     };
 
     return (
       <div key={'timeline'}>
-        <GraphCard cardHeader={cardHeader}>
           <TimeSeriesGraph
+            allSiteTopics={this.props.fullTermList}
             timeSeriesGraphData={this.props.timeSeriesGraphData}
+            changeTimelineRange={reloadTimelineWithNewRange}
             {...this.filterLiterals() }
           />
-        </GraphCard>
       </div>
     );
   }
@@ -187,7 +187,7 @@ export default class Dashboard extends React.Component {
   }
 
   renderedGridCards(heatMapFullScreen) {
-    return [this.topTopicsComponent()];
+    return [this.topLocationsComponent(), this.topTopicsComponent(), this.topSourcesComponent(), this.timelineComponent()];
     //return heatMapFullScreen ? [this.watchlistComponent(), this.heatmapComponent(), this.newsfeedComponent()] :
     //  [this.topLocationsComponent(), this.topTopicsComponent(), this.topSourcesComponent(), this.timelineComponent(), this.watchlistComponent(), this.heatmapComponent(), this.newsfeedComponent()];
   }

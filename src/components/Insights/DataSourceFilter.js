@@ -41,7 +41,7 @@ export default class DataSourceFilter extends React.Component {
         buttons.push(<RadioButton labelStyle={styles.radioLabel} style={styles.radioButton} key={source} value={source} label={<div style={styles.labelContainer}><i style={iconStyle} className={value.icon}></i><span style={styles.label}>{value.display}</span></div>} />)
     }
 
-    return <RadioButtonGroup onChange={this.radioButtonChanged} 
+    return <RadioButtonGroup onChange={(e, value)=>this.radioButtonChanged(e, value)} 
                              style={styles.buttonGroup} 
                              name="filters" 
                              valueSelected={this.props.dataSource}>

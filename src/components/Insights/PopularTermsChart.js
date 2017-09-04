@@ -2,9 +2,8 @@ import React from 'react';
 import DoughnutChart from '../Graphics/DoughnutChart';
 import { Cell } from 'recharts';
 import { fetchTermFromMap } from './shared';
-
-const BG_FILL = "#30303d";
-const COLORS = ['#EE2E2F', '#008C48', '#185AA9', '#F47D23', '#662C91', '#A21D21'];
+import Sentiment from '../Graphics/Sentiment';
+import constants from '../../actions/constants';
 
 export default class PopularTermsChart extends React.Component {
     constructor(props) {
@@ -18,13 +17,13 @@ export default class PopularTermsChart extends React.Component {
     }
 
     handleClick(data) {
-        const { dataSource, bbox, timespanType, termFilters, datetimeSelection, zoomLevel, maintopic, externalsourceid, fromDate, toDate } = this.props;
+        const { dataSource, bbox, timespanType, termFilters, datetimeSelection, zoomLevel, externalsourceid, fromDate, toDate } = this.props;
 
         this.props.flux.actions.DASHBOARD.reloadVisualizationState(fromDate, toDate, datetimeSelection, timespanType, dataSource, data.defaultName, bbox, zoomLevel, Array.from(termFilters), externalsourceid);
     }
 
-    refreshChart() {
-        const { allSiteTopics, popularTerms, defaultLanguage, maintopic, language } = this.props;
+    refreshChart(props) {
+        const { allSiteTopics, popularTerms, defaultLanguage, maintopic, language } = props;
         let activeIndex = -1;
         let colorCells = [], dataProvider = [];
 
@@ -36,13 +35,14 @@ export default class PopularTermsChart extends React.Component {
             }
 
             const value = term.mentions;
-            const color = COLORS[index];
+            const icon = <Sentiment showGraph={false} value={term.avgsentiment} />;
+            const color = constants.CHART_STYLE.COLORS[index];
             const name = edge.translatedname;
             const defaultName = edge.name;
 
             colorCells.push(<Cell key={0} fill={color} />);
 
-            dataProvider.push(Object.assign({}, { value, name, defaultName }));
+            dataProvider.push(Object.assign({}, { value, name, icon, defaultName }));
         });
 
         this.setState({ colorCells, dataProvider, activeIndex });
@@ -61,20 +61,17 @@ export default class PopularTermsChart extends React.Component {
     }
 
     componentDidMount() {
-        this.refreshChart();
+        this.refreshChart(this.props);
     }
 
     componentWillReceiveProps(nextProps) {
-        //if (this.props.datetimeSelection !== nextProps.datetimeSelection || this.props.dataSource !== nextProps.dataSource
-        //    || this.props.language !== nextProps.language || this.props.mainEdge !== nextProps.mainEdge) {
-        this.refreshChart();
-        //}
+        this.refreshChart(nextProps);
     }
 
     render() {
         return (
             <DoughnutChart handleClick={data=>this.handleClick(data)}
-                fill={BG_FILL}
+                fill={constants.CHART_STYLE.BG_FILL}
                 language={this.props.language}
                 data={this.state.dataProvider}
                 activeIndex={this.state.activeIndex}>

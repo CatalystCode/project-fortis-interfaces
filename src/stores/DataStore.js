@@ -74,15 +74,15 @@ export const DataStore = Fluxxor.createStore({
 
     syncChartDataToStore(graphqlResponse){
         const { locations, topics, sources, timeSeries, conjunctiveterms } = graphqlResponse;
-        this.dataStore.popularLocations = locations.edges;
-        this.dataStore.popularTerms = topics.edges;
-        this.dataStore.conjunctivetopics = conjunctiveterms.edges;
-        this.dataStore.topSources = sources.edges;
-        this.syncTimeSeriesData(timeSeries.edges);
+        this.dataStore.popularLocations = locations.edges ? locations.edges : [];
+        this.dataStore.popularTerms = topics.edges ? topics.edges : [];
+        this.dataStore.conjunctivetopics = conjunctiveterms.edges ? conjunctiveterms.edges : [];
+        this.dataStore.topSources = sources.edges ? sources.edges : [];
+        this.syncTimeSeriesData(timeSeries || []);
     },
 
     intializeSettings(graphqlResponse) {
-        const { terms, configuration, topics } = graphqlResponse;
+        const { terms, configuration, topics, timeSeries } = graphqlResponse;
         const { datetimeSelection, timespanType } = this.dataStore;
         const { defaultLanguage, logo, title, targetBbox, supportedLanguages, defaultZoomLevel } = configuration;
         const { fromDate, toDate } = convertDateValueToRange(datetimeSelection, timespanType);
@@ -124,6 +124,10 @@ export const DataStore = Fluxxor.createStore({
 
     syncTimeSeriesData(mutatedTimeSeries) {
         this.dataStore.timeSeriesGraphData = { labels: [], graphData: [] };
+        let test = [{ "date": "2017-08-30 17:00", "isis": 1, "bomb": 23, "car": 2, "fatalities": 2, "fear": 1 },
+        { "date": "2017-09-01 17:00", "isis": 1, "bomb": 15, "car": 2, "fatalities": 2, "fear": 1 },
+        { "date": "2017-09-02 17:00", "isis": 1, "bomb": 23, "car": 2, "fatalities": 2, "fear": 1 }
+        ];
 
         if (mutatedTimeSeries && mutatedTimeSeries.graphData && mutatedTimeSeries.labels && mutatedTimeSeries.graphData.length) {
             const { labels, graphData } = mutatedTimeSeries;
@@ -136,7 +140,8 @@ export const DataStore = Fluxxor.createStore({
                 return timeSeriesEntry;
             });
 
-            this.dataStore.timeSeriesGraphData.graphData = Array.from(timeseriesMap.values());
+            let sorted = Array.from(timeseriesMap.values()).concat(test).sort((a, b)=>moment(a.date).unix() > moment(b.date).unix());
+            this.dataStore.timeSeriesGraphData.graphData = sorted;
         }
     },
 
