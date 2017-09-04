@@ -22,6 +22,7 @@ function fetchGqlData(endpoint, gqlQueryBody, callback) {
 export const SERVICES = {
     getChartVisualizationData(periodType, maintopic, dataSource, fromDate, toDate, bbox,
 <<<<<<< HEAD
+<<<<<<< HEAD
         zoomLevel, conjunctivetopics, externalsourceid, timeseriesmaintopics, callback) {
         const timePeriodType = constants.TIMESPAN_TYPES[periodType].timeseriesType;
         const pipelinekeys = [dataSource];
@@ -33,6 +34,12 @@ export const SERVICES = {
         const topsourcespipelinekey = ActionMethods.DataSources(dataSource);
         const timeseriesmaintopics = maintopic ? [maintopic] : [];
 >>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
+=======
+        zoomLevel, conjunctivetopics, externalsourceid, timeseriesmaintopics, callback) {
+        const timePeriodType = periodType === "year" ? constants.ANNUAL_TIMESERIES_PERIOD : constants.DEFAULT_TIMESERIES_PERIOD;
+        const pipelinekeys = [dataSource];
+        const topsourcespipelinekey = ActionMethods.DataSources(dataSource);
+>>>>>>> V2 refactored interface
         const limit = 5;
         const gqlEndpoint = 'edges';
 
