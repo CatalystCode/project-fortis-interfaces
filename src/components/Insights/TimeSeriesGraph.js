@@ -11,14 +11,18 @@ import ActionTimeline from 'material-ui/svg-icons/action/timeline';
 import { fullWhite } from 'material-ui/styles/colors';
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> V2 refactored interface
+=======
+>>>>>>> Fortis V2 interface changes
 export default class TimeSeriesGraph extends React.Component {
     constructor(props) {
         super(props);
         this.range = {};
         this.state = {
+<<<<<<< HEAD
 <<<<<<< HEAD
             lines: []
 =======
@@ -26,6 +30,9 @@ export default class TimeSeriesGraph extends React.Component {
             startIndex: 0,
             endIndex: 0
 >>>>>>> V2 refactored interface
+=======
+            lines: []
+>>>>>>> Fortis V2 interface changes
         };
     }
 
@@ -90,10 +97,10 @@ export default class TimeSeriesGraph extends React.Component {
                 ticksCount={5} />
         });
 
-        const startIndex = 0, endIndex = timeSeriesGraphData.graphData.length;
+        const startIndex = 0, endIndex = timeSeriesGraphData.graphData.length - 1;
         this.range = { startIndex, endIndex };
 
-        this.setState({ lines, startIndex, endIndex });
+        this.setState({ lines });
     }
 
     dateFormat(time) {
@@ -121,16 +128,24 @@ export default class TimeSeriesGraph extends React.Component {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Fortis V2 interface changes
     resetTimeline(){
         this.props.refreshDashboardFunction();
     }
 
+<<<<<<< HEAD
     handleDataFetch() {
         const { dataSource, timespanType, bbox, termFilters, timeSeriesGraphData, zoomLevel, externalsourceid, maintopic } = this.props;
 =======
     handleDataFetch() {
         const { dataSource, bbox, timespanType, termFilters, timeSeriesGraphData, zoomLevel, externalsourceid, maintopic } = this.props;
 >>>>>>> V2 refactored interface
+=======
+    handleDataFetch() {
+        const { dataSource, timespanType, bbox, termFilters, timeSeriesGraphData, zoomLevel, externalsourceid, maintopic } = this.props;
+>>>>>>> Fortis V2 interface changes
         const { startIndex, endIndex } = this.range;
         const fromDateSlice = timeSeriesGraphData.graphData[startIndex];
         const toDateSlice = timeSeriesGraphData.graphData[endIndex];
@@ -140,6 +155,7 @@ export default class TimeSeriesGraph extends React.Component {
             const fromDate = this.momentFormat(fromDateSlice.date, FromToDateFormat);
             const toDate =  this.momentFormat(toDateSlice.date, FromToDateFormat);
             const datetimeSelection = `${this.momentFormat(fromDateSlice.date, datetimeSelectionFormat)} - ${this.momentFormat(toDateSlice.date, datetimeSelectionFormat)}`
+<<<<<<< HEAD
 <<<<<<< HEAD
             const timeseriesType = constants.TIMESPAN_TYPES[timespanType].timeseriesType
             this.props.flux.actions.DASHBOARD.reloadVisualizationState(fromDate, toDate, datetimeSelection, timeseriesType, dataSource, maintopic, bbox, zoomLevel, Array.from(termFilters), externalsourceid);
@@ -157,6 +173,13 @@ export default class TimeSeriesGraph extends React.Component {
     }
 >>>>>>> V2 refactored interface
 
+=======
+            const timeseriesType = constants.TIMESPAN_TYPES[timespanType].timeseriesType
+            this.props.flux.actions.DASHBOARD.reloadVisualizationState(fromDate, toDate, datetimeSelection, timeseriesType, dataSource, maintopic, bbox, zoomLevel, Array.from(termFilters), externalsourceid);
+        }
+    }
+
+>>>>>>> Fortis V2 interface changes
     render() {
         const ActionButtons = [<FlatButton key="reload-button"
                                            icon={<ActionTimeline color={fullWhite} />}
@@ -177,10 +200,13 @@ export default class TimeSeriesGraph extends React.Component {
                     dataKey="date"
                     dateRangeChanged={(range, ob) => this.dateRangeChanged(range, ob)}
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
                     brushStartIndex={this.state.startIndex}
                     brushEndIndex={this.state.endIndex}
 >>>>>>> V2 refactored interface
+=======
+>>>>>>> Fortis V2 interface changes
                     tickFormatter={time => this.dateFormat(time)}>
                     {this.state.lines}
                 </Timeline>

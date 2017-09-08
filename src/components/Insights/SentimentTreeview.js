@@ -3,10 +3,14 @@ import React from 'react';
 import { Treebeard, decorators } from 'react-treebeard';
 import * as filters from './TreeFilter';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import TypeaheadSearch from './TypeaheadSearch';
 =======
 import { TypeaheadSearch } from './TypeaheadSearch';
 >>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
+=======
+import TypeaheadSearch from './TypeaheadSearch';
+>>>>>>> Fortis V2 interface changes
 import '../../styles/Header.css';
 import '../../styles/Insights/SentimentTreeView.css';
 import { styles, treeDataStyle } from '../../styles/Insights/SentimentTreeview';
@@ -14,6 +18,7 @@ import numeralLibs from 'numeral';
 import { fetchTermFromMap } from './shared';
 
 const TopRowHeight = 130;
+<<<<<<< HEAD
 <<<<<<< HEAD
 const parentTermsName = "Term Filters";
 =======
@@ -146,6 +151,9 @@ const treeDataStyle = {
     }
 };
 >>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
+=======
+const parentTermsName = "Term Filters";
+>>>>>>> Fortis V2 interface changes
 
 decorators.Toggle = (props) => {
     let isNodeTypeCategory = props.node && props.node.children && props.node.children.length > 0;
@@ -180,6 +188,7 @@ export default class SentimentTreeview extends React.Component {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     componentWillReceiveProps(nextProps) {
         let treeData = this.createRelevantTermsTree(nextProps);
         this.setState({ treeData: treeData, originalTreeData: treeData })
@@ -211,16 +220,21 @@ export default class SentimentTreeview extends React.Component {
         }
     }
 
+=======
+>>>>>>> Fortis V2 interface changes
     componentWillReceiveProps(nextProps) {
-        if (this.hasChanged() || this.props.language !== nextProps.language) {
-            const { conjunctivetopics } = this.props;
-            let treeData = this.createRelevantTermsTree(conjunctivetopics, nextProps.language);
-            this.setState({ treeData: treeData, originalTreeData: treeData })
-        }
+        let treeData = this.createRelevantTermsTree(nextProps);
+        this.setState({ treeData: treeData, originalTreeData: treeData })
     }
 
+<<<<<<< HEAD
     createRelevantTermsTree(termsMap, lang) {
 >>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
+=======
+    createRelevantTermsTree(props) {
+        const { conjunctivetopics, language, termFilters, allSiteTopics, defaultLanguage } = props;
+
+>>>>>>> Fortis V2 interface changes
         let rootItem = {
             name: parentTermsName,
             folderKey: 'associatedKeywords',
@@ -248,6 +262,9 @@ export default class SentimentTreeview extends React.Component {
         let popularTermsTotal = 0, otherTotal = 0;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Fortis V2 interface changes
         conjunctivetopics.forEach(topic => {
             const { mentions, conjunctionterm } = topic;
             const edge = fetchTermFromMap(allSiteTopics, conjunctionterm, language, defaultLanguage);
@@ -258,6 +275,7 @@ export default class SentimentTreeview extends React.Component {
                 folderKey: conjunctionterm,
                 checked: enabledConjunctiveTerm,
                 eventCount: mentions
+<<<<<<< HEAD
             });
 
             if (itemCount++ < 5) {
@@ -272,22 +290,34 @@ export default class SentimentTreeview extends React.Component {
                 folderKey: term,
                 checked: value.enabled,
                 eventCount: value.mentions
+=======
+>>>>>>> Fortis V2 interface changes
             });
-            if (term !== "none" && itemCount++ < 5) {
+
+            if (itemCount++ < 5) {
                 newEntry.parent = popularItemsRoot;
                 popularItemsRoot.children.push(newEntry);
+<<<<<<< HEAD
                 popularTermsTotal += value.enabled ? value.mentions : 0;
             } else if (term !== "none") {
 >>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
+=======
+                popularTermsTotal += enabledConjunctiveTerm ? mentions : 0;
+            } else {
+>>>>>>> Fortis V2 interface changes
                 newEntry.parent = otherItemsRoot;
                 otherItemsRoot.children.push(newEntry);
                 otherTotal += enabledConjunctiveTerm ? mentions : 0;
             }
 <<<<<<< HEAD
+<<<<<<< HEAD
         });
 =======
         }
 >>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
+=======
+        });
+>>>>>>> Fortis V2 interface changes
 
         if (popularItemsRoot.children < 5) {
             popularItemsRoot.name = "Terms";
@@ -306,6 +336,9 @@ export default class SentimentTreeview extends React.Component {
 
     onToggle(node, toggled) {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Fortis V2 interface changes
         const { name } = node;
         let { termFilters, maintopic } = this.props;
 
@@ -317,6 +350,7 @@ export default class SentimentTreeview extends React.Component {
             this.handleDataFetch(maintopic, termFilters);
         }else{
             alert(`You're allowed to select up to 2 conjunctive terms. Please unselect one of the topics.`);
+<<<<<<< HEAD
         }
     }
 
@@ -347,32 +381,27 @@ export default class SentimentTreeview extends React.Component {
 
         if (node.children && node.children.length > 0) {
             node.children.map(item => self.changeCheckedStateForChildren(item, filters, cb));
+=======
+>>>>>>> Fortis V2 interface changes
         }
     }
 
-    onChange(node) {
-        let filters = this.props.enabledTerms.map(filter => Object.assign({}, { term: filter, action: 'add' }));
-        let checkboxActionCB = (nodeElement, filterList) => {
-            let addTerm = !nodeElement.checked;
-            let termIndex = filterList.findIndex(filter => filter.term === nodeElement.folderKey);
+    handleDataFetch(maintopic, termFilters) {
+        const { dataSource, bbox, timespanType, datetimeSelection, zoomLevel, externalsourceid, fromDate, toDate } = this.props;
 
-            //you're selecting to remove the enabled filter
-            if (!addTerm && termIndex > -1) {
-                let mutatedFilter = Object.assign({}, filterList[termIndex], { action: 'remove' });
-                filterList[termIndex] = mutatedFilter;
-            } else {
-                filterList.push({ term: nodeElement.folderKey, action: 'add' });
-            }
-        }
-
-        this.changeCheckedStateForChildren(node, filters, checkboxActionCB);
-        this.getFlux().actions.DASHBOARD.changeTermsFilter(filters);
+        this.props.flux.actions.DASHBOARD.reloadVisualizationState(fromDate, toDate, datetimeSelection, timespanType, dataSource, maintopic, bbox, zoomLevel, Array.from(termFilters), externalsourceid);
     }
 
+<<<<<<< HEAD
     filterNode(filteredNode) {
         let filters = [filteredNode[`name_${DEFAULT_LANGUAGE}`]];
         this.getFlux().actions.DASHBOARD.changeTermsFilterToOnly(filters);
 >>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
+=======
+    clearTerms(){
+        const { maintopic } = this.props;
+        this.handleDataFetch(maintopic, []);
+>>>>>>> Fortis V2 interface changes
     }
 
     onFilterMouseUp(e) {
@@ -384,6 +413,7 @@ export default class SentimentTreeview extends React.Component {
         this.setState({ treeData: filtered });
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     termSelected(node) {
         this.handleDataFetch(node.name, []);
@@ -454,55 +484,10 @@ export default class SentimentTreeview extends React.Component {
         }
     }
 
+=======
+>>>>>>> Fortis V2 interface changes
     termSelected(node) {
-        if (!node.children) {
-            node['type'] = "Term";
-            this.getFlux().actions.DASHBOARD.reloadVisualizationState(this.props.siteKey, this.state.datetimeSelection,
-                this.state.timespanType, this.state.dataSource, node);
-        }
-    }
-
-    Header(props) {
-        const style = props.style;
-        let self = this;
-        const termStyle = { paddingLeft: '3px', fontWeight: 800, fontSize: '14px', color: '#337ab7', width: '100%' };
-        const categoryStyle = { paddingLeft: '3px', fontSize: '14px', color: '#fff', display: 'inline-table', fontWeight: 600 };
-        let badgeClass = (props.node.checked || props.node.children) && props.node.eventCount > 0 ? "badge" : "badge badge-disabled";
-        let isNodeTypeCategory = props.node.children && props.node.children.length > 0;
-        let onlyLink = <span style={style.only} onClick={this.filterNode.bind(this, props.node)}>only</span>;
-        let termClassName = !isNodeTypeCategory ? "relevantTerm" : "";
-
-        return (
-            <div className="row" style={!props.node.highlighted || props.node.children ? style.base : style.baseHighlight} onMouseEnter={this.onHighlight.bind(this, props.node)}>
-                <div className="col-md-10" style={style.title}>
-                    <input type="checkbox"
-                        checked={props.node.checked}
-                        onChange={self.onChange.bind(this, props.node)} />
-                    <span className={termClassName} onClick={() => this.termSelected(props.node)} style={!isNodeTypeCategory ? termStyle : categoryStyle}>{props.node.name} </span>
-                    {props.node.highlighted ? onlyLink : ""}
-                </div>
-                <div style={props.node.name === parentTermsName ? style.parentBadge : style.badge} className="col-md-2">
-                    {
-                        props.node.eventCount && props.node.eventCount > 0 ?
-                            <span className={badgeClass}>{numeralLibs(props.node.eventCount).format(props.node.eventCount > 1000 ? '+0.0a' : '0a')}</span>
-                            : undefined
-                    }
-                </div>
-            </div>
-        );
-    }
-
-    Toggle(props) {
-        let iconComponent = {};
-        const style = props.style;
-
-        return (
-            <div style={style.base}>
-                <div style={style.wrapper}>
-                    {iconComponent}
-                </div>
-            </div>
-        );
+        this.handleDataFetch(node.name, []);
     }
 
     render() {
@@ -511,25 +496,63 @@ export default class SentimentTreeview extends React.Component {
             height: this.props.height - TopRowHeight
         };
 
+        const decoratorsOverride = {
+            Header: (props, ref) => {
+                const style = props.style;
+                let self = this;
+                const termStyle = { paddingLeft: '3px', fontWeight: 800, fontSize: '14px', color: '#337ab7', width: '100%' };
+                const categoryStyle = { paddingLeft: '3px', fontSize: '14px', color: '#fff', display: 'inline-table', fontWeight: 600 };
+                let badgeClass = (props.node.checked || props.node.children) && props.node.eventCount > 0 ? "badge" : "badge badge-disabled";
+                let isNodeTypeCategory = props.node.children && props.node.children.length > 0;
+                let termClassName = !isNodeTypeCategory ? "relevantTerm" : "";
+        
+                return (
+                    <div className="row" style={!props.node.highlighted || props.node.children ? style.base : style.baseHighlight} >
+                        <div className="col-md-10" style={style.title}>
+                            <input type="checkbox" onChange={()=>self.onToggle(props.node)}
+                                checked={props.node.checked} />
+                            <span className={termClassName} onClick={() => self.termSelected(props.node)} style={!isNodeTypeCategory ? termStyle : categoryStyle}>{props.node.name} </span>
+                        </div>
+                        <div style={props.node.name === parentTermsName ? style.parentBadge : style.badge} className="col-md-2">
+                            {
+                                props.node.eventCount && props.node.eventCount > 0 ?
+                                    <span className={badgeClass}>{numeralLibs(props.node.eventCount).format(props.node.eventCount > 1000 ? '+0.0a' : '0a')}</span>
+                                    : undefined
+                            }
+                        </div>
+                    </div>
+                );
+            }
+        };
+
         return (
             <div className="panel panel-selector">
                 <Subheader style={styles.subHeader}>
-                    <span style={styles.titleSpan}>WATCHLIST TERMS</span>
+                    <span style={styles.titleSpan}>FILTERS</span>
                     {
+<<<<<<< HEAD
                         this.props.enabledTerms.length > 0 ?
                             <button type="button" onClick={() => this.getFlux().actions.DASHBOARD.clearWatchlistFilters()} className="btn btn-primary btn-sm">Clear Selections</button>
 >>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
+=======
+                        this.props.termFilters.size > 0 ?
+                            <button type="button" onClick={() => self.clearTerms()} className="btn btn-primary btn-sm">Clear Selections</button>
+>>>>>>> Fortis V2 interface changes
                             : undefined
                     }
                 </Subheader>
                 <div style={styles.searchBox}>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Fortis V2 interface changes
                    { <TypeaheadSearch 
                         dashboardRefreshFunc={(maintopic, conjunctivetopics)=>this.handleDataFetch(maintopic, conjunctivetopics)}
                         language={this.props.language}
                         allSiteTopics={this.props.allSiteTopics}
                         maintopic={this.props.maintopic}
                         defaultLanguage={this.props.defaultLanguage} /> }
+<<<<<<< HEAD
 =======
                     <TypeaheadSearch data={this.state.categoryValue["name_" + this.props.language]}
                         type={this.state.categoryType}
@@ -539,6 +562,8 @@ export default class SentimentTreeview extends React.Component {
                         datetimeSelection={this.state.datetimeSelection}
                         timespanType={this.state.timespanType} />
 >>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
+=======
+>>>>>>> Fortis V2 interface changes
                 </div>
                 <div style={styles.searchBox}>
                     <div className="input-group">
@@ -556,6 +581,7 @@ export default class SentimentTreeview extends React.Component {
                         this.state && this.state.treeData && this.state.treeData.children ?
                             <div style={styles.component}>
 <<<<<<< HEAD
+<<<<<<< HEAD
                                 <Treebeard animations={false}
                                     decorators={Object.assign({}, decorators, decoratorsOverride)}
                                     data={this.state.treeData}
@@ -569,6 +595,12 @@ export default class SentimentTreeview extends React.Component {
                                     siteKey={this.props.siteKey}
                                     decorators={Object.assign({}, decorators, { Header: self.Header })} />
 >>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
+=======
+                                <Treebeard animations={false}
+                                    decorators={Object.assign({}, decorators, decoratorsOverride)}
+                                    data={this.state.treeData}
+                                    style={treeDataStyle} />
+>>>>>>> Fortis V2 interface changes
                             </div> : undefined
                     }
                 </div>

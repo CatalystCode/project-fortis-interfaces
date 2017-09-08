@@ -25,11 +25,14 @@ export const SERVICES = {
 <<<<<<< HEAD
         zoomLevel, conjunctivetopics, externalsourceid, timeseriesmaintopics, callback) {
         const timePeriodType = constants.TIMESPAN_TYPES[periodType].timeseriesType;
+<<<<<<< HEAD
         const pipelinekeys = [dataSource];
         const topsourcespipelinekey = ActionMethods.DataSources(dataSource);
 =======
         zoomLevel, conjunctivetopics, externalsourceid, callback) {
         const timePeriodType = periodType === "year" ? constants.ANNUAL_TIMESERIES_PERIOD : constants.DEFAULT_TIMESERIES_PERIOD;
+=======
+>>>>>>> Fortis V2 interface changes
         const pipelinekeys = [dataSource];
         const topsourcespipelinekey = ActionMethods.DataSources(dataSource);
         const timeseriesmaintopics = maintopic ? [maintopic] : [];
@@ -77,6 +80,7 @@ export const SERVICES = {
     },
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     getHeatmapTiles(fromDate, toDate, zoomLevel, maintopic, tileid, periodType, 
                     pipelinekeys, externalsourceid, conjunctivetopics, callback) {
         console.log(`processing tile request [${maintopic}, ${fromDate}, ${toDate}, ${tileid}}]`)
@@ -85,15 +89,24 @@ export const SERVICES = {
                     pipelinekeys, externalsourceid, conjunctivetopics, callback) {
         console.log(`processing tile request [${maintopic}, ${fromDate}, ${toDate}, ${tilex}, ${tiley}}]`)
 >>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
+=======
+    getHeatmapTiles(fromDate, toDate, zoomLevel, maintopic, tileid, periodType, 
+                    pipelinekeys, externalsourceid, conjunctivetopics, callback) {
+        console.log(`processing tile request [${maintopic}, ${fromDate}, ${toDate}, ${tileid}}]`)
+>>>>>>> Fortis V2 interface changes
         
         const query = `${DashboardFragments.heatmapFragment}
                        ${DashboardQueries.getHeatmapQuery}`;
         const gqlEndpoint = 'tiles';
 <<<<<<< HEAD
+<<<<<<< HEAD
         const variables = { fromDate, toDate, zoomLevel, maintopic, tileid, periodType, 
 =======
         const variables = { fromDate, toDate, zoomLevel, maintopic, tilex, tiley, periodType, 
 >>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
+=======
+        const variables = { fromDate, toDate, zoomLevel, maintopic, tileid, periodType, 
+>>>>>>> Fortis V2 interface changes
             pipelinekeys, externalsourceid, conjunctivetopics
         };
 
@@ -179,20 +192,28 @@ export const SERVICES = {
     },
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     FetchMessageSentences(externalsourceid, bbox, zoomLevel, fromDate, toDate, limit, pageState, conjunctivetopics, pipelinekeys, fulltextTerm, callback) {
 =======
     FetchMessageSentences(externalsourceid, bbox, fromDate, toDate, limit, pageState, conjunctivetopics, pipelinekeys, fulltextTerm, callback) {
 >>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
+=======
+    FetchMessageSentences(externalsourceid, bbox, zoomLevel, fromDate, toDate, limit, pageState, conjunctivetopics, pipelinekeys, fulltextTerm, callback) {
+>>>>>>> Fortis V2 interface changes
         if (bbox && Array.isArray(bbox) && bbox.length === 4) {
             const gqlEndpoint = 'Messages';
             const query = ` ${DashboardFragments.getMessagesByBbox}
                             ${DashboardQueries.getMessagesByBbox}`;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             const variables = { bbox, conjunctivetopics, zoomLevel, limit, pageState, fromDate, toDate, externalsourceid, pipelinekeys, fulltextTerm };
 =======
             const variables = { bbox, conjunctivetopics, limit, pageState, fromDate, toDate, externalsourceid, pipelinekeys, fulltextTerm };
 >>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
+=======
+            const variables = { bbox, conjunctivetopics, zoomLevel, limit, pageState, fromDate, toDate, externalsourceid, pipelinekeys, fulltextTerm };
+>>>>>>> Fortis V2 interface changes
 
             fetchGqlData(gqlEndpoint, { variables, query }, callback);
         } else {
