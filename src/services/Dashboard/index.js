@@ -22,7 +22,7 @@ function fetchGqlData(endpoint, gqlQueryBody, callback) {
 export const SERVICES = {
     getChartVisualizationData(periodType, maintopic, dataSource, fromDate, toDate, bbox,
         zoomLevel, conjunctivetopics, externalsourceid, timeseriesmaintopics, callback) {
-        const timePeriodType = periodType === "year" ? constants.ANNUAL_TIMESERIES_PERIOD : constants.DEFAULT_TIMESERIES_PERIOD;
+        const timePeriodType = constants.TIMESPAN_TYPES[periodType].timeseriesType;
         const pipelinekeys = [dataSource];
         const topsourcespipelinekey = ActionMethods.DataSources(dataSource);
         const limit = 5;
@@ -61,14 +61,14 @@ export const SERVICES = {
         fetchGqlData(gqlEndpoint, { variables, query }, callback);
     },
 
-    getHeatmapTiles(fromDate, toDate, zoomLevel, maintopic, tilex, tiley, periodType, 
+    getHeatmapTiles(fromDate, toDate, zoomLevel, maintopic, tileid, periodType, 
                     pipelinekeys, externalsourceid, conjunctivetopics, callback) {
-        console.log(`processing tile request [${maintopic}, ${fromDate}, ${toDate}, ${tilex}, ${tiley}}]`)
+        console.log(`processing tile request [${maintopic}, ${fromDate}, ${toDate}, ${tileid}}]`)
         
         const query = `${DashboardFragments.heatmapFragment}
                        ${DashboardQueries.getHeatmapQuery}`;
         const gqlEndpoint = 'tiles';
-        const variables = { fromDate, toDate, zoomLevel, maintopic, tilex, tiley, periodType, 
+        const variables = { fromDate, toDate, zoomLevel, maintopic, tileid, periodType, 
             pipelinekeys, externalsourceid, conjunctivetopics
         };
 
@@ -153,13 +153,13 @@ export const SERVICES = {
         request(POST, callback);
     },
 
-    FetchMessageSentences(externalsourceid, bbox, fromDate, toDate, limit, pageState, conjunctivetopics, pipelinekeys, fulltextTerm, callback) {
+    FetchMessageSentences(externalsourceid, bbox, zoomLevel, fromDate, toDate, limit, pageState, conjunctivetopics, pipelinekeys, fulltextTerm, callback) {
         if (bbox && Array.isArray(bbox) && bbox.length === 4) {
             const gqlEndpoint = 'Messages';
             const query = ` ${DashboardFragments.getMessagesByBbox}
                             ${DashboardQueries.getMessagesByBbox}`;
 
-            const variables = { bbox, conjunctivetopics, limit, pageState, fromDate, toDate, externalsourceid, pipelinekeys, fulltextTerm };
+            const variables = { bbox, conjunctivetopics, zoomLevel, limit, pageState, fromDate, toDate, externalsourceid, pipelinekeys, fulltextTerm };
 
             fetchGqlData(gqlEndpoint, { variables, query }, callback);
         } else {

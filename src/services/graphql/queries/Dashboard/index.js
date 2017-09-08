@@ -1,5 +1,5 @@
 export const getMessagesByBbox = `query ByBbox($externalsourceid: String, $zoomLevel: Int!, $bbox: [Float]!, $conjunctivetopics: [String]!, $limit: Int!, $pageState: String, $fromDate: String!, $toDate: String!, $pipelinekeys: [String]!, $fulltextTerm: String) {
-byBbox(externalsourceid: $externalsourceid, bbox: $bbox, conjunctivetopics: $conjunctivetopics, zoomLevel: $zoomLevel, limit: $limit, pageState: $pageState, fromDate: $fromDate, toDate: $toDate, pipelinekeys: $pipelinekeys, fulltextTerm: $fulltextTerm) {
+   messages: byBbox(externalsourceid: $externalsourceid, bbox: $bbox, conjunctivetopics: $conjunctivetopics, zoomLevel: $zoomLevel, limit: $limit, pageState: $pageState, fromDate: $fromDate, toDate: $toDate, pipelinekeys: $pipelinekeys, fulltextTerm: $fulltextTerm) {
 ...FortisDashboardView
 }
 }`;
@@ -20,7 +20,7 @@ export const getConjunctiveTerms = `conjunctiveTerms(maintopic:$maintopic, bbox:
     ... FortisDashboardConjunctiveTermsView
 }`;
 
-export const getHeatmapByTile = `heatmapFeaturesByTile(maintopic:$maintopic, tiley: $tiley, tilex: $tilex, fromDate: $fromDate, toDate: $toDate, pipelinekeys: $pipelinekeys, zoomLevel:$zoomLevel, periodType: $periodType, externalsourceid: $externalsourceid, conjunctivetopics: $conjunctivetopics) {
+export const getHeatmapByTile = `heatmapFeaturesByTile(maintopic:$maintopic, tileid: $tileid, fromDate: $fromDate, toDate: $toDate, pipelinekeys: $pipelinekeys, zoomLevel:$zoomLevel, periodType: $periodType, externalsourceid: $externalsourceid, conjunctivetopics: $conjunctivetopics) {
     ...FortisHeatmapViewFeatures
 }`;
 
@@ -59,6 +59,6 @@ export const DashboardQuery = `query DashboardQuery($bbox: [Float]!, $zoomLevel:
                             locations: ${getPopularPlaces}
 }`;
 
-export const getHeatmapQuery = `query FetchTileHeatmap($maintopic: String!, $tiley: Int!, $tilex: Int!, $zoomLevel: Int!, $fromDate: String!, $toDate: String!, $pipelinekeys: [String]!, $periodType: String!, $externalsourceid: String!, $conjunctivetopics: [String]!) {
+export const getHeatmapQuery = `query FetchTileHeatmap($maintopic: String!, $tileid: String!, $zoomLevel: Int!, $fromDate: String!, $toDate: String!, $pipelinekeys: [String]!, $periodType: String!, $externalsourceid: String!, $conjunctivetopics: [String]!) {
         heatmap: ${getHeatmapByTile}
 }`;

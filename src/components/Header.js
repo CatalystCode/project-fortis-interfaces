@@ -6,7 +6,7 @@ import MenuItem from 'material-ui/MenuItem';
 
 export default class Header extends React.Component {
   changeLanguage(event, index, value){
-      this.getFlux().actions.DASHBOARD.changeLanguage(value);
+    this.props.flux.actions.DASHBOARD.changeLanguage(value);
   }
 
   render() {

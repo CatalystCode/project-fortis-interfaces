@@ -15,12 +15,12 @@ export const EntryPage = React.createClass({
   propertyLiterals() {
     const { dataSource, bbox, termFilters, maintopic, externalsourceid, datetimeSelection, 
             fromDate, toDate, language, zoomLevel, settings, timespanType, 
-            conjunctivetopics, timeSeriesGraphData, popularLocations, popularTerms,
+            conjunctivetopics, heatmapTileIds, timeSeriesGraphData, popularLocations, popularTerms,
             topSources, trustedSources, fullTermList } = this.state;
 
     return Object.assign({}, { dataSource, maintopic, termFilters, bbox, 
                                externalsourceid, datetimeSelection, fromDate, toDate, language,
-                               zoomLevel, settings, timespanType, 
+                               zoomLevel, settings, timespanType, heatmapTileIds, 
                                conjunctivetopics, timeSeriesGraphData, popularLocations, popularTerms,
                                topSources, trustedSources, fullTermList });
   },

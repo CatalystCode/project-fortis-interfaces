@@ -1,9 +1,9 @@
 import React from 'react';
 import DataSelector from './DataSelector';
-import { HeatMap } from './HeatMap';
-import { SentimentTreeview } from './SentimentTreeview';
+import HeatMap from './HeatMap';
+import SentimentTreeview from './SentimentTreeview';
 import GraphCard from '../Graphics/GraphCard';
-import { ActivityFeed } from './ActivityFeed';
+import ActivityFeed from './ActivityFeed';
 import TimeSeriesGraph from './TimeSeriesGraph';
 import PopularTermsChart from './PopularTermsChart';
 import PopularLocationsChart from './PopularLocationsChart';
@@ -23,6 +23,9 @@ const DefaultToggleText = "Expand Heatmap";
 export default class Dashboard extends React.Component {
   constructor(props) {
     super(props);
+
+    
+    this.onResizeStop = this.onResizeStop.bind(this);
 
     this.state = {
       contentRowHeight: 0,
@@ -74,7 +77,9 @@ export default class Dashboard extends React.Component {
         <div>
           <div id='leafletMap'></div>
           <HeatMap
-            height={HeatMapFullScreen ? contentAreaHeight : contentRowHeight}
+            targetBbox={this.props.settings.targetBbox}
+            heatmapTileIds={this.props.heatmapTileIds}
+            defaultZoom={parseInt(this.props.settings.defaultZoomLevel)}
             {...this.filterLiterals() }
           />
         </div>
@@ -92,6 +97,7 @@ export default class Dashboard extends React.Component {
         <div id="newsfeed-container">
           {bbox.length ?
             <ActivityFeed
+              allSiteTopics={this.props.fullTermList}
               infiniteScrollHeight={HeatMapFullScreen ? contentAreaHeight : newsfeedResizedHeight > 0 ? newsfeedResizedHeight : contentRowHeight}
               {...this.filterLiterals() }
             />
@@ -153,17 +159,18 @@ export default class Dashboard extends React.Component {
     );
   }
 
-  timelineComponent() {
-    const reloadTimelineWithNewRange = (selection, callback) => {
-      callback(selection);
-    };
+  refreshDashboard(){
+    const { dataSource, timespanType, termFilters, datetimeSelection, zoomLevel, maintopic, bbox, fromDate, toDate, externalsourceid } = this.filterLiterals();
+    this.props.flux.actions.DASHBOARD.reloadVisualizationState(fromDate, toDate, datetimeSelection, timespanType, dataSource, maintopic, bbox, zoomLevel, Array.from(termFilters), externalsourceid);
+  }
 
+  timelineComponent() {
     return (
       <div key={'timeline'}>
           <TimeSeriesGraph
             allSiteTopics={this.props.fullTermList}
+            refreshDashboardFunction={()=>this.refreshDashboard()}
             timeSeriesGraphData={this.props.timeSeriesGraphData}
-            changeTimelineRange={reloadTimelineWithNewRange}
             {...this.filterLiterals() }
           />
       </div>
@@ -178,6 +185,8 @@ export default class Dashboard extends React.Component {
       <div key={'watchlist'}>
         <GraphCard>
           <SentimentTreeview
+            conjunctivetopics={this.props.conjunctivetopics}
+            allSiteTopics={this.props.fullTermList}
             height={HeatMapFullScreen ? contentAreaHeight : (watchlistResizedHeight > 0) ? watchlistResizedHeight : contentRowHeight}
             {...this.filterLiterals() }
           />
@@ -187,9 +196,8 @@ export default class Dashboard extends React.Component {
   }
 
   renderedGridCards(heatMapFullScreen) {
-    return [this.topLocationsComponent(), this.topTopicsComponent(), this.topSourcesComponent(), this.timelineComponent()];
-    //return heatMapFullScreen ? [this.watchlistComponent(), this.heatmapComponent(), this.newsfeedComponent()] :
-    //  [this.topLocationsComponent(), this.topTopicsComponent(), this.topSourcesComponent(), this.timelineComponent(), this.watchlistComponent(), this.heatmapComponent(), this.newsfeedComponent()];
+    return heatMapFullScreen ? [this.watchlistComponent(), this.heatmapComponent(), this.newsfeedComponent()] :
+      [this.topLocationsComponent(), this.topTopicsComponent(), this.topSourcesComponent(), this.timelineComponent(), this.watchlistComponent(), this.heatmapComponent()];//;, this.newsfeedComponent()];
   }
 
   render() {
@@ -209,9 +217,11 @@ export default class Dashboard extends React.Component {
                 <ResponsiveReactGridLayout
                   measureBeforeMount={false}
                   className="layout"
+                  isDraggable={false}
+                  isDraggable={false}
                   layouts={HeatMapFullScreen ? defaultLayout.layoutCollapsed : defaultLayout.layout}
                   cols={{ lg: 24, md: 20, sm: 12, xs: 8, xxs: 4 }}
-                  rowHeight={32}
+                  rowHeight={28}
                   onResizeStop={this.onResizeStop}
                   breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
                   useCSSTransforms={this.state.mounted}>

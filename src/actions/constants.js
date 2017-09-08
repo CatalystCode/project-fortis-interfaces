@@ -4,37 +4,42 @@ module.exports = {
          "-1": -15,
          "1": 5
     },
+    MAP: {
+        MINZOOM: 8,
+        MAXZOOM: 10,
+
+    },
     TIMESPAN_TYPES : {
          'hour': {
-             format: "MM/DD/YYYY HH:00", blobFormat: "[hour]-YYYY-MM-DDHH:00", rangeFormat: "hour"
+             format: "MM/DD/YYYY HH:00", blobFormat: "[hour]-YYYY-MM-DDHH:00", rangeFormat: "hour", timeseriesType: "hour"
          },
          'day': {
-             format: "MM/DD/YYYY", blobFormat: "[day]-YYYY-MM-DD", rangeFormat: "day"
+             format: "MM/DD/YYYY", blobFormat: "[day]-YYYY-MM-DD", rangeFormat: "day", timeseriesType: "hour"
          },
          'month': {
-             format: "YYYY-MM", blobFormat: "[month]-YYYY-MM", rangeFormat: "month"
+             format: "YYYY-MM", blobFormat: "[month]-YYYY-MM", rangeFormat: "month", timeseriesType: "hour"
          },
          'week': {
-             format: "YYYY-WW", blobFormat: "[week]-YYYY-WW", rangeFormat: "isoweek"
+             format: "YYYY-WW", blobFormat: "[week]-YYYY-WW", rangeFormat: "week", timeseriesType: "hour"
          },
          'year': {
-             format: "YYYY", blobFormat: "[year]-YYYY", rangeFormat: "year"
+             format: "YYYY", blobFormat: "[year]-YYYY", rangeFormat: "year", timeseriesType: "day"
          },
          'customDate': {
-             format: "MM/DD/YYYY", reactWidgetFormat: "MMM Do YYYY", blobFormat: "[day]-YYYY-MM-DD", rangeFormat: "day"
+             format: "MM/DD/YYYY", reactWidgetFormat: "MMM Do YYYY", blobFormat: "[day]-YYYY-MM-DD", rangeFormat: "day", timeseriesType: "hour"
          },
          'customDateTime': {
              format: "MM/DD/YY HH:00", reactWidgetFormat: "MMM Do YYYY HH:00", blobFormat: "[hour]-YYYY-MM-DDHH:00", rangeFormat: "hour"
          },
          'customMonth': {
-             format: "MMMM YYYY", reactWidgetFormat: "MMMM YYYY", blobFormat: "[month]-YYYY-MM", rangeFormat: "month"
+             format: "MMMM YYYY", reactWidgetFormat: "MMMM YYYY", blobFormat: "[month]-YYYY-MM", rangeFormat: "month", timeseriesType: "hour"
          }
     },
-    DATA_SOURCES: new Map([["all", {"display": "All", "sourceValues":["twitter", "facebook", "acled", "reddit", "bing"], "icon": "fa fa-share-alt", "label": "All"}],
-                     ["facebook", {"display": "Facebook", "sourceValues":["facebook"], "icon": "fa fa-facebook-official", "label": ""}],
-                     ["twitter", {"display": "Twitter", "sourceValues":["twitter"], "label": "", "icon": "fa fa-twitter"}],
+    DATA_SOURCES: new Map([["all", {"display": "All", "sourceValues":["Twitter", "Facebook", "acled", "reddit", "Bing"], "icon": "fa fa-share-alt", "label": "All"}],
+                     ["Facebook", {"display": "Facebook", "sourceValues":["Facebook"], "icon": "fa fa-facebook-official", "label": ""}],
+                     ["Twitter", {"display": "Twitter", "sourceValues":["Twitter"], "label": "", "icon": "fa fa-twitter"}],
                      ["acled", {"display": "acled", "sourceValues":["acled"], "label": "", "icon": "fa fa-font"}],
-                     ["tadaweb", {"display": "Tadaweb", "sourceValues":["tadaweb"], "label": "", "icon": "fa fa-text-width"}],
+                     ["TadaWeb", {"display": "Tadaweb", "sourceValues":["TadaWeb"], "label": "", "icon": "fa fa-text-width"}],
                      ["custom", {"display": "Imported Events", "sourceValues":["custom"], "label": "", "icon": "fa fa-upload"}]
                    ]),
     MOMENT_FORMATS: {
@@ -64,6 +69,13 @@ module.exports = {
     DEFAULT_EXTERNAL_SOURCE: "all",
     DEFAULT_TIMESPAN_TYPE: "month",
     DEFAULT_TIMEPERIOD_FORMAT: "YYYY-MM",
+    ACTIVITY_FEED: {
+        NEWS_FEED_SEARCH_CONTAINER_HEIGHT: 115,
+        SERVICE_DATETIME_FORMAT: "MM/DD/YYYY HH:mm:s A",
+        ELEMENT_ITEM_HEIGHT: 80,
+        OFFSET_INCREMENT: 28,
+        INFINITE_LOAD_DELAY_MS: 1000
+    },    
     ANNUAL_TIMESERIES_PERIOD: "day",
     HEATMAP_MAX_ZOOM: 16,
     HEATMAP_DEFAULT_ZOOM: 8,

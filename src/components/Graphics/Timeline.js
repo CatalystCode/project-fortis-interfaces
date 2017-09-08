@@ -15,10 +15,7 @@ class Timeline extends Component {
                     <Tooltip />
                     <Brush height={25}
                         onChange={range=>this.props.dateRangeChanged(range)}
-                        dataKey={this.props.dataKey}
-                        startIndex={this.props.startIndex}
-                        endIndex={this.props.endIndex}
-                        >
+                        dataKey={this.props.dataKey} >
                         <AreaChart data={this.props.data} fill={this.props.fill}>
                             <CartesianGrid />
                             <YAxis hide domain={['auto', 'auto']} />

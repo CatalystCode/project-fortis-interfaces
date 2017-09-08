@@ -57,8 +57,7 @@ export default class DataSelector extends React.Component {
     }
 
     handleChange(event, index, value) {
-        let timeSelectionIndex = this.customDateEntered(this.state.timeType)? index : index + 1;
-        var selectionOption = TimeSelectionOptions[timeSelectionIndex];
+        var selectionOption = TimeSelectionOptions[index];
         
         if(selectionOption.timeType.startsWith("custom")){
             this.setState({timeType: value});
@@ -83,10 +82,7 @@ export default class DataSelector extends React.Component {
                 let label = timeOption.label;
 
                 //if there is no custom date entered then skip adding the customDatePlaceholder option
-                if(!this.customDateEntered(self.state.timeType) && timeOption.timeType === 'customDatePlaceholder'){
-                    return false;
-                //if there is a custom date entered then display it in the list
-                } else if (timeOption.timeType === 'customDatePlaceholder') {
+                if (timeOption.timeType === 'customDatePlaceholder') {
                     timeValue = self.props.datetimeSelection;
                     label = timeValue;
                     //format the pre defined date option

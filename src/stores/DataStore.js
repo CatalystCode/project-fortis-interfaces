@@ -40,11 +40,13 @@ export const DataStore = Fluxxor.createStore({
             placeid: "",
             timeSeriesGraphData: {},
             popularLocations: [],
+            targetBbox: [],
             popularTerms: [],
             topSources: [],
             trustedSources: [],
             supportedLanguages: [],
             termFilters: new Set(),
+            heatmapTileIds: [],
             fullTermList: new Map(),
             bbox: [],
             zoomLevel: constants.HEATMAP_DEFAULT_ZOOM,
@@ -74,10 +76,10 @@ export const DataStore = Fluxxor.createStore({
 
     syncChartDataToStore(graphqlResponse){
         const { locations, topics, sources, timeSeries, conjunctiveterms } = graphqlResponse;
-        this.dataStore.popularLocations = locations.edges ? locations.edges : [];
-        this.dataStore.popularTerms = topics.edges ? topics.edges : [];
-        this.dataStore.conjunctivetopics = conjunctiveterms.edges ? conjunctiveterms.edges : [];
-        this.dataStore.topSources = sources.edges ? sources.edges : [];
+        this.dataStore.popularLocations = locations && locations.edges ? locations.edges : [];
+        this.dataStore.popularTerms = topics && topics.edges ? topics.edges : [];
+        this.dataStore.conjunctivetopics = conjunctiveterms && conjunctiveterms.edges ? conjunctiveterms.edges : [];
+        this.dataStore.topSources = sources && sources.edges ? sources.edges : [];
         this.syncTimeSeriesData(timeSeries || []);
     },
 
@@ -95,6 +97,7 @@ export const DataStore = Fluxxor.createStore({
         this.dataStore.language = defaultLanguage;
         this.dataStore.zoomLevel = defaultZoomLevel;
         this.dataStore.bbox = targetBbox || [];
+        this.dataStore.targetBbox = targetBbox;
         this.dataStore.supportedLanguages = supportedLanguages;
         this.dataStore.maintopic = topics.edges.length ? topics.edges[0].name : '';
         this.dataStore.settings = configuration;
@@ -124,13 +127,15 @@ export const DataStore = Fluxxor.createStore({
 
     syncTimeSeriesData(mutatedTimeSeries) {
         this.dataStore.timeSeriesGraphData = { labels: [], graphData: [] };
+        this.dataStore.heatmapTileIds = [];
+
         let test = [{ "date": "2017-08-30 17:00", "isis": 1, "bomb": 23, "car": 2, "fatalities": 2, "fear": 1 },
         { "date": "2017-09-01 17:00", "isis": 1, "bomb": 15, "car": 2, "fatalities": 2, "fear": 1 },
         { "date": "2017-09-02 17:00", "isis": 1, "bomb": 23, "car": 2, "fatalities": 2, "fear": 1 }
         ];
 
         if (mutatedTimeSeries && mutatedTimeSeries.graphData && mutatedTimeSeries.labels && mutatedTimeSeries.graphData.length) {
-            const { labels, graphData } = mutatedTimeSeries;
+            const { labels, graphData, tiles } = mutatedTimeSeries;
             this.dataStore.timeSeriesGraphData = Object.assign({}, { labels });
             
             const timeseriesMap = makeMap(graphData, item=>item.date, item=>{
@@ -142,6 +147,7 @@ export const DataStore = Fluxxor.createStore({
 
             let sorted = Array.from(timeseriesMap.values()).concat(test).sort((a, b)=>moment(a.date).unix() > moment(b.date).unix());
             this.dataStore.timeSeriesGraphData.graphData = sorted;
+            this.dataStore.heatmapTileIds = tiles;
         }
     },
 

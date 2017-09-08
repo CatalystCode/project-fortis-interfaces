@@ -12,10 +12,10 @@ export const getMessagesByBbox = `fragment FortisDashboardView on FeatureCollect
                 language,
                 pipelinekey,
                 link,
-                originalSource,
                 title,
                 link
             }
+            coordinates
         }
     }`;
 
@@ -57,6 +57,7 @@ export const visualizationChartFragment = `fragment FortisDashboardTimeSeriesVie
             avgsentiment
             date
         }
+        tiles
     }`;
 
 export const conjunctiveTermsFragment = `fragment FortisDashboardConjunctiveTermsView on ConjunctionTermCollection {
