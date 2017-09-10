@@ -70,6 +70,12 @@ export const getPopularPlaces = `topLocations(zoomLevel:$zoomLevel, maintopic:$m
     ... FortisPopularPlacesView
 }`;
 
+export const translateEvent = `query FetchEvent($sentence: String!, $fromLanguage: String!, $toLanguage: String!) {
+    
+                translate(sentence: $sentence, fromLanguage: $fromLanguage, toLanguage: $toLanguage){
+                    ...TranslationView
+}`;
+
 export const getTopSourcesQuery = `query TopSources($maintopic: String!, $bbox: [Float]!, $zoomLevel: Int!, $conjunctivetopics: [String]!, $limit: Int!, $fromDate: String!, $toDate: String!, $topsourcespipelinekey: [String]!, $periodType: String!) {
     ${getTopSources}
 }`;
@@ -78,6 +84,12 @@ export const getTopSourcesQuery = `query TopSources($maintopic: String!, $bbox: 
 
 export const getPopularTermsQuery = `query PopularTerms($bbox: [Float]!, $zoomLevel: Int!, $limit: Int!, $fromDate: String!, $toDate: String!, $pipelinekeys: [String]!, $periodType: String!, $externalsourceid: String!) {
     topics: ${getPopularTerms}
+}`;
+
+export const getEventDetailsQuery = `query FetchEvent($messageId: String!) {
+    event(messageId: $messageId) {
+      ...FortisDashboardView
+    }
 }`;
 
 export const getPopularPlacesQuery = `query PopularPlaces($maintopic: String!, $bbox: [Float]!, $zoomLevel: Int!, $limit: Int!, $fromDate: String!, $toDate: String!, $pipelinekeys: [String]!, $periodType: String!, $externalsourceid: String!, $conjunctivetopics: [String]!) {

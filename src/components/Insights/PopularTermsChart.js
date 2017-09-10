@@ -2,8 +2,6 @@ import React from 'react';
 import DoughnutChart from '../Graphics/DoughnutChart';
 import { Cell } from 'recharts';
 import { fetchTermFromMap } from './shared';
-<<<<<<< HEAD
-<<<<<<< HEAD
 import Sentiment from '../Graphics/Sentiment';
 import constants from '../../actions/constants';
 
@@ -26,40 +24,6 @@ export default class PopularTermsChart extends React.Component {
 
     refreshChart(props) {
         const { allSiteTopics, popularTerms, defaultLanguage, maintopic, language } = props;
-=======
-
-const BG_FILL = "#30303d";
-const COLORS = ['#EE2E2F', '#008C48', '#185AA9', '#F47D23', '#662C91', '#A21D21'];
-=======
-import Sentiment from '../Graphics/Sentiment';
-import constants from '../../actions/constants';
->>>>>>> V2 refactored interface
-
-export default class PopularTermsChart extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            activeIndex: 0,
-            dataProvider: [],
-            colorCells: []
-        };
-    }
-
-    handleClick(data) {
-        const { dataSource, bbox, timespanType, termFilters, datetimeSelection, zoomLevel, externalsourceid, fromDate, toDate } = this.props;
-
-        this.props.flux.actions.DASHBOARD.reloadVisualizationState(fromDate, toDate, datetimeSelection, timespanType, dataSource, data.defaultName, bbox, zoomLevel, Array.from(termFilters), externalsourceid);
-    }
-
-<<<<<<< HEAD
-    refreshChart() {
-        const { allSiteTopics, popularTerms, defaultLanguage, maintopic, language } = this.props;
->>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
-=======
-    refreshChart(props) {
-        const { allSiteTopics, popularTerms, defaultLanguage, maintopic, language } = props;
->>>>>>> V2 refactored interface
         let activeIndex = -1;
         let colorCells = [], dataProvider = [];
 
@@ -71,36 +35,17 @@ export default class PopularTermsChart extends React.Component {
             }
 
             const value = term.mentions;
-<<<<<<< HEAD
-<<<<<<< HEAD
-            const icon = <Sentiment showGraph={false} value={term.avgsentiment} />;
             const color = constants.CHART_STYLE.COLORS[index];
-=======
-            const color = COLORS[index];
->>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
-=======
-            const icon = <Sentiment showGraph={false} value={term.avgsentiment} />;
-            const color = constants.CHART_STYLE.COLORS[index];
->>>>>>> V2 refactored interface
             const name = edge.translatedname;
             const defaultName = edge.name;
 
             colorCells.push(<Cell key={0} fill={color} />);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-            dataProvider.push(Object.assign({}, { value, name, icon, defaultName }));
-=======
             dataProvider.push(Object.assign({}, { value, name, defaultName }));
->>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
-=======
-            dataProvider.push(Object.assign({}, { value, name, icon, defaultName }));
->>>>>>> V2 refactored interface
         });
 
         this.setState({ colorCells, dataProvider, activeIndex });
     }
-<<<<<<< HEAD
 
     hasChanged(nextProps, propertyName) {
         if (Array.isArray(nextProps[propertyName])) {
@@ -111,60 +56,21 @@ export default class PopularTermsChart extends React.Component {
             return true;
         }
 
-=======
-
-    hasChanged(nextProps, propertyName) {
-        if (Array.isArray(nextProps[propertyName])) {
-            return nextProps[propertyName].join(",") !== this.props[propertyName].join(",");
-        }
-
-        if (this.props[propertyName] && nextProps[propertyName] && nextProps[propertyName] !== this.props[propertyName]) {
-            return true;
-        }
-
->>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
         return false;
     }
 
     componentDidMount() {
-<<<<<<< HEAD
-<<<<<<< HEAD
         this.refreshChart(this.props);
     }
 
     componentWillReceiveProps(nextProps) {
         this.refreshChart(nextProps);
-=======
-        this.refreshChart();
-    }
-
-    componentWillReceiveProps(nextProps) {
-        //if (this.props.datetimeSelection !== nextProps.datetimeSelection || this.props.dataSource !== nextProps.dataSource
-        //    || this.props.language !== nextProps.language || this.props.mainEdge !== nextProps.mainEdge) {
-        this.refreshChart();
-        //}
->>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
-=======
-        this.refreshChart(this.props);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        this.refreshChart(nextProps);
->>>>>>> V2 refactored interface
     }
 
     render() {
         return (
             <DoughnutChart handleClick={data=>this.handleClick(data)}
-<<<<<<< HEAD
-<<<<<<< HEAD
                 fill={constants.CHART_STYLE.BG_FILL}
-=======
-                fill={BG_FILL}
->>>>>>> V2 dashboard rewrite to accomodate cassandra GQL services
-=======
-                fill={constants.CHART_STYLE.BG_FILL}
->>>>>>> V2 refactored interface
                 language={this.props.language}
                 data={this.state.dataProvider}
                 activeIndex={this.state.activeIndex}>
