@@ -60,17 +60,17 @@ export const AdminStore = Fluxxor.createStore({
     handleLoadStreams(response) {
       this.dataStore.streams = response.response.streams.streams || [];
       this.dataStore.action = response.action || false;
-      this.loadStreamsColumns(this.dataStore.streams);
+      this.loadStreamsColumns();
       this.emit("change");
     },
 
     handleModifyStreams(response) {
-      this.loadStreamsColumns(this.dataStore.streams);
+      this.loadStreamsColumns();
       this.emit("change");
     },
 
     handleRemoveStreams(response) {
-      this.loadStreamsColumns(this.dataStore.streams);
+      this.loadStreamsColumns();
       this.emit("change");
     },
 
