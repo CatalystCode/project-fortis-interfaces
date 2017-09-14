@@ -90,8 +90,5 @@
     "eject": "react-scripts eject",
     "lint": "eslint src",
     "test": "mocha"
-  },
-  "eslintConfig": {
-    "extends": "./node_modules/react-scripts/config/eslint.js"
   }
 }
