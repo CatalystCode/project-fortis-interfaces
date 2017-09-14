@@ -166,7 +166,7 @@ export default class Dashboard extends React.Component {
     );
   }
 
-  refreshDashboard(includeCsv) {
+  refreshDashboard = (includeCsv) => {
     const { dataSource, timespanType, termFilters, datetimeSelection, zoomLevel, maintopic, bbox, fromDate, toDate, externalsourceid, selectedplace } = this.filterLiterals();
     this.props.flux.actions.DASHBOARD.reloadVisualizationState(fromDate, toDate, datetimeSelection, timespanType, dataSource, maintopic, bbox, zoomLevel, Array.from(termFilters), externalsourceid, includeCsv, selectedplace);
   }
@@ -176,7 +176,7 @@ export default class Dashboard extends React.Component {
       <div key={'timeline'}>
           <TimeSeriesGraph
             allSiteTopics={this.props.fullTermList}
-            refreshDashboardFunction={()=>this.refreshDashboard()}
+            refreshDashboardFunction={this.refreshDashboard}
             timeSeriesGraphData={this.props.timeSeriesGraphData}
             {...this.filterLiterals() }
           />

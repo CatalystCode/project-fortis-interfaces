@@ -42,7 +42,7 @@ export default class DataSelector extends React.Component {
         this.setState({ timeType: '' });
     }
 
-    cancelDateTimePicker() {
+    cancelDateTimePicker = () => {
         this.setState({ timeType: '' });
     }
 
@@ -56,7 +56,7 @@ export default class DataSelector extends React.Component {
         this.props.flux.actions.DASHBOARD.reloadVisualizationState(fromDate, toDate, timeSelection, dateType, dataSource, maintopic, bbox, zoomLevel, Array.from(termFilters), externalsourceid, null, selectedplace);
     }
 
-    handleChange(event, index, value) {
+    handleChange = (event, index, value) => {
         var selectionOption = TimeSelectionOptions[index];
         
         if(selectionOption.timeType.startsWith("custom")){
@@ -66,7 +66,7 @@ export default class DataSelector extends React.Component {
         }
     }
 
-    handleDatePickerChange(dateObject, dateStr) {
+    handleDatePickerChange = (dateObject, dateStr) => {
         let formatter = constants.TIMESPAN_TYPES[this.state.timeType];
         this.refreshDashboard(momentToggleFormats(dateStr, formatter.reactWidgetFormat, formatter.format), this.state.timeType);
         this.setState({ timeType: 'customDatePlaceholder' });
@@ -114,26 +114,26 @@ export default class DataSelector extends React.Component {
                             <SelectField key="dateSelection" underlineStyle={{ borderColor: '#337ab7', borderBottom: 'solid 3px' }}
                                 labelStyle={{ fontWeight: 600, color: '#2ebd59' }}
                                 value={this.props.datetimeSelection}
-                                onChange={(event, index, value)=>this.handleChange(event, index, value)}>
+                                onChange={this.handleChange}>
                                 {self.predefinedDateOptions(self)}
                             </SelectField>
                             :
                             <DateTimePicker value={new Date()}
-                                onChange={(dateObject, dateStr)=>this.handleDatePickerChange(dateObject, dateStr)}
+                                onChange={this.handleDatePickerChange}
                                 format={constants.TIMESPAN_TYPES[this.state.timeType].reactWidgetFormat}
                                 time={showTimePicker} {...monthSelectorProps} />
                         }
                     </div>
                     <div>
                         {showTimePicker || showDatePicker || showMonthSelector ?
-                            <button id="cancel-button" type="button" className="btn btn-danger btn-sm" onClick={()=>this.cancelDateTimePicker()}>
+                            <button id="cancel-button" type="button" className="btn btn-danger btn-sm" onClick={this.cancelDateTimePicker}>
                                 <span className="fa fa-times-circle-o" aria-hidden="true"></span>&nbsp;Cancel
                 </button>
                             : undefined
                         }
                     </div>
                     <div>
-                        <button id="save-button" type="button" className="btn btn-primary btn-sm" onClick={()=>this.props.toggleHeatmapSize()}>
+                        <button id="save-button" type="button" className="btn btn-primary btn-sm" onClick={this.props.toggleHeatmapSize}>
                             <span className="fa fa-expand" aria-hidden="true">
                             </span>
                             <span>{this.props.heatmapToggleText}</span>

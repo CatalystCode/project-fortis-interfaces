@@ -179,7 +179,7 @@ export default class SentimentTreeview extends React.Component {
         this.handleDataFetch(maintopic, []);
     }
 
-    onFilterMouseUp(e) {
+    onFilterMouseUp = (e) => {
         const filter = e.target.value.trim();
 
         if (!filter) { return this.setState({ treeData: this.state.originalTreeData }); }
@@ -266,7 +266,7 @@ export default class SentimentTreeview extends React.Component {
                         <input type="text"
                             className="form-control edgeFilterInput"
                             placeholder="Search the association list..."
-                            onKeyUp={ev=>self.onFilterMouseUp(ev)} />
+                            onKeyUp={self.onFilterMouseUp} />
                     </div>
                 </div>
                 <div className="list-group" data-scrollable="" style={treeviewStyle}>

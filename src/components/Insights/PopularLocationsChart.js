@@ -16,7 +16,7 @@ export default class PopularLocationsChart extends React.Component {
         };
     }
 
-    handleClick(data, activeIndex) {
+    handleClick = (data, activeIndex) => {
         const { placeid, centroid, bbox, name } = data;
 
         const { dataSource, timespanType, termFilters, defaultZoom, datetimeSelection, maintopic, externalsourceid, fromDate, toDate } = this.props;
@@ -60,7 +60,8 @@ export default class PopularLocationsChart extends React.Component {
 
     render() {
         return (
-            <DoughnutChart handleClick={(data, activeIndex)=>this.handleClick(data, activeIndex)}
+            <DoughnutChart
+                handleClick={this.handleClick}
                 fill={constants.CHART_STYLE.BG_FILL}
                 language={this.props.language}
                 data={this.state.dataProvider}

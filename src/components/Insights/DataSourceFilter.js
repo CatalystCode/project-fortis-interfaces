@@ -29,9 +29,9 @@ const styles={
 };
 
 export default class DataSourceFilter extends React.Component {
-  radioButtonChanged(e, value){
+  radioButtonChanged = (e, value) => {
       const { timespanType, selectedplace, datetimeSelection, fromDate, toDate, maintopic, bbox, zoomLevel, termFilters, externalsourceid } = this.props;
-    
+
       this.props.flux.actions.DASHBOARD.reloadVisualizationState(fromDate, toDate, datetimeSelection, timespanType, value, maintopic, bbox, zoomLevel, Array.from(termFilters), externalsourceid, null, selectedplace);
   }
 
@@ -41,7 +41,7 @@ export default class DataSourceFilter extends React.Component {
         buttons.push(<RadioButton labelStyle={styles.radioLabel} style={styles.radioButton} key={source} value={source} label={<div style={styles.labelContainer}><i style={iconStyle} className={value.icon}></i><span style={styles.label}>{value.display}</span></div>} />)
     }
 
-    return <RadioButtonGroup onChange={(e, value)=>this.radioButtonChanged(e, value)} 
+    return <RadioButtonGroup onChange={this.radioButtonChanged}
                              style={styles.buttonGroup} 
                              name="filters" 
                              valueSelected={this.props.dataSource}>
