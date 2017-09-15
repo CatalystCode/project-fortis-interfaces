@@ -16,9 +16,10 @@ export default class PopularTermsChart extends React.Component {
     }
 
     handleClick(data) {
-        const { dataSource, bbox, timespanType, termFilters, datetimeSelection, zoomLevel, externalsourceid, fromDate, toDate } = this.props;
+        const { dataSource, bbox, timespanType, termFilters, datetimeSelection, zoomLevel, externalsourceid, fromDate, toDate, includeCsv, place } = this.props;
+        const { defaultName } = data;
 
-        this.props.flux.actions.DASHBOARD.reloadVisualizationState(fromDate, toDate, datetimeSelection, timespanType, dataSource, data.defaultName, bbox, zoomLevel, Array.from(termFilters), externalsourceid);
+        this.props.flux.actions.DASHBOARD.reloadVisualizationState(fromDate, toDate, datetimeSelection, timespanType, dataSource, defaultName, bbox, zoomLevel, Array.from(termFilters), externalsourceid, includeCsv, place);
     }
 
     refreshChart(props) {

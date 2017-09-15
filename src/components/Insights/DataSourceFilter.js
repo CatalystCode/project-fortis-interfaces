@@ -30,9 +30,9 @@ const styles={
 
 export default class DataSourceFilter extends React.Component {
   radioButtonChanged(e, value){
-      const { timespanType, datetimeSelection, fromDate, toDate, maintopic, bbox, zoomLevel, conjunctivetopics, externalsourceid } = this.props;
+      const { timespanType, includeCsv, place, datetimeSelection, fromDate, toDate, maintopic, bbox, zoomLevel, conjunctivetopics, externalsourceid } = this.props;
     
-      this.props.flux.actions.DASHBOARD.reloadVisualizationState(fromDate, toDate, datetimeSelection, timespanType, value, maintopic, bbox, zoomLevel, conjunctivetopics, externalsourceid);
+      this.props.flux.actions.DASHBOARD.reloadVisualizationState(fromDate, toDate, datetimeSelection, timespanType, value, maintopic, bbox, zoomLevel, conjunctivetopics, externalsourceid, includeCsv, place);
   }
 
   renderDataSourceRadioOpts(iconStyle){

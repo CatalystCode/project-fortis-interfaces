@@ -48,12 +48,12 @@ export default class HeatMap extends React.Component {
   asyncInvokeDashboardRefresh(viewport) {
     if (this.refs.map) {
       const { dataSource, timespanType, termFilters, datetimeSelection, maintopic, externalsourceid,
-        fromDate, toDate } = this.props;
+        includeCsv, place, fromDate, toDate } = this.props;
       const zoom = this.refs.map.leafletElement.getZoom();
       const bbox = this.getLeafletBbox();
 
       this.props.flux.actions.DASHBOARD.reloadVisualizationState(fromDate, toDate, datetimeSelection, 
-        timespanType, dataSource, maintopic, bbox, zoom, Array.from(termFilters), externalsourceid);
+        timespanType, dataSource, maintopic, bbox, zoom, Array.from(termFilters), externalsourceid, includeCsv, place);
     }
   }
 
