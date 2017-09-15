@@ -144,28 +144,28 @@ export default class SentimentTreeview extends React.Component {
     }
 
     handleDataFetch = (maintopic, termFilters, place) => {
-        const { dataSource, timespanType, datetimeSelection, defaultZoom, externalsourceid, fromDate, toDate } = this.props;
+        const { dataSource, timespanType, datetimeSelection, defaultZoom, externalsourceid, fromDate, toDate, includeCsv } = this.props;
         const bbox = place && place.bbox ? place.bbox : this.props.bbox;
         const zoomLevel = place ? defaultZoom : this.props.zoomLevel;
 
         maintopic = maintopic && !place ? maintopic : this.props.maintopic;
         termFilters = termFilters != null ? termFilters : this.props.termFilters;
         
-        this.props.flux.actions.DASHBOARD.reloadVisualizationState(fromDate, toDate, datetimeSelection, timespanType, dataSource, maintopic, bbox, zoomLevel, Array.from(termFilters), externalsourceid, null, place);
+        this.props.flux.actions.DASHBOARD.reloadVisualizationState(fromDate, toDate, datetimeSelection, timespanType, dataSource, maintopic, bbox, zoomLevel, Array.from(termFilters), externalsourceid, includeCsv, place);
     }
 
     deleteExternalSourceId = () => {
-        const { dataSource, timespanType, datetimeSelection, zoomLevel, fromDate, toDate, termFilters, maintopic, bbox } = this.props;
+        const { dataSource, timespanType, datetimeSelection, zoomLevel, fromDate, toDate, termFilters, maintopic, bbox, includeCsv, place } = this.props;
         const externalsourceid = DEFAULT_EXTERNAL_SOURCE;
 
-        this.props.flux.actions.DASHBOARD.reloadVisualizationState(fromDate, toDate, datetimeSelection, timespanType, dataSource, maintopic, bbox, zoomLevel, Array.from(termFilters), externalsourceid);
+        this.props.flux.actions.DASHBOARD.reloadVisualizationState(fromDate, toDate, datetimeSelection, timespanType, dataSource, maintopic, bbox, zoomLevel, Array.from(termFilters), externalsourceid, includeCsv, place);
     }
 
     deleteDataSource = () => {
-        const { externalsourceid, timespanType, datetimeSelection, zoomLevel, fromDate, toDate, termFilters, maintopic, bbox } = this.props;
+        const { externalsourceid, timespanType, datetimeSelection, zoomLevel, fromDate, toDate, termFilters, maintopic, bbox, includeCsv, place } = this.props;
         const dataSource = DEFAULT_DATA_SOURCE;
 
-        this.props.flux.actions.DASHBOARD.reloadVisualizationState(fromDate, toDate, datetimeSelection, timespanType, dataSource, maintopic, bbox, zoomLevel, Array.from(termFilters), externalsourceid);
+        this.props.flux.actions.DASHBOARD.reloadVisualizationState(fromDate, toDate, datetimeSelection, timespanType, dataSource, maintopic, bbox, zoomLevel, Array.from(termFilters), externalsourceid, includeCsv, place);
     }
 
     clearTerms(){
