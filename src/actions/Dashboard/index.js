@@ -8,7 +8,7 @@ import { momentGetFromToRange } from '../../utils/Utils';
 function toDataSources(streams) {
     const dataSources = new Map();
 
-    const allDataSource = {display: 'All', sourceValues: streams.map(stream => stream.pipelineKey), icon: 'fa fa-share-alt', label: 'all'};
+    const allDataSource = {display: 'All', sourceValues: Array.from(new Set(streams.map(stream => stream.pipelineKey))), icon: 'fa fa-share-alt', label: 'all'};
     dataSources.set('all', allDataSource);
 
     streams.forEach(stream => {
