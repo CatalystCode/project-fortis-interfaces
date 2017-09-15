@@ -32,7 +32,7 @@ export const getPipelineWatchlist = `query PipelineDefintion($translationLanguag
    terms: ${getPipelineTerms}
 }`;
 
-export const getPipelineDenfintion = `query PipelineDefintion($translationLanguage: String) {
+export const getPipelineDefinition = `query PipelineDefintion($translationLanguage: String) {
     terms: ${getPipelineTerms}
     configuration: ${getAdminSite}
 }`;
