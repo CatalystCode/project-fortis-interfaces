@@ -124,7 +124,7 @@ const methods = {
     save_settings(settings) {
       const self = this;
 
-      AdminServices.editSite(settings, (err, response, body) => ResponseHandler(err, response, body, (error, graphqlResponse) => {
+      AdminServices.modifySite(settings, (err, response, body) => ResponseHandler(err, response, body, (error, graphqlResponse) => {
         if (graphqlResponse && !error) {
           const action = 'saved';
           self.dispatch(constants.ADMIN.SAVE_SITE_SETTINGS, {settings: settings, action: action});
