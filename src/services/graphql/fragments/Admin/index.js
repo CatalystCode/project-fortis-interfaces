@@ -29,6 +29,11 @@ export const site = `fragment SiteView on SiteCollection {
       defaultLocation
       defaultLanguage
       supportedLanguages
+      featureservicenamespace
+      translationSvcToken
+      cogSpeechSvcToken
+      cogVisionSvcToken
+      cogTextSvcToken
     }
   }
 }`;
@@ -50,6 +55,13 @@ export const twitterAccounts = `fragment TwitterAccountsView on TwitterAccountCo
     consumerSecret
     accessToken
     accessTokenSecret
+  }
+}`;
+
+export const blacklist = `fragment BlacklistView on BlacklistCollection {
+  filters {
+    id
+    filteredTerms
   }
 }`;
 
