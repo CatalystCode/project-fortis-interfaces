@@ -4,6 +4,18 @@ export const editSite = `mutation EditSite($input: EditableSiteSettings!) {
   }
 }`;
 
+export const saveTrustedSources = `mutation SaveTrustedSources($input: TrustedSourcesInput!) {
+  modifyTrustedSources(input: $input) {
+    ...TrustedSourcesView
+  }
+}`;
+
+export const removeTrustedSources = `mutation RemoveTrustedSources($input: TrustedSourcesInput!) {
+  removeTrustedSources(input: $input) {
+    ...TrustedSourcesView
+  }
+}`;
+
 export const saveBlacklists = `mutation SaveBlacklists($input: BlacklistTermDefintion!) {
   modifyBlacklist(input: $input) {
     ...BlacklistView

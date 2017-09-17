@@ -81,6 +81,24 @@ export const SERVICES = {
     fetchGqlData(SETTINGS_ENDPOINT, { variables, query }, callback);
   },
 
+  fetchTrustedSources(callback) {
+    const query = `${AdminFragments.trustedSources}${AdminQueries.getTrustedSources}`;
+    const variables = {};
+    fetchGqlData(SETTINGS_ENDPOINT, { variables, query }, callback);
+  },
+
+  saveTrustedSources(sources, callback) {
+    const query = `${AdminFragments.trustedSources}${AdminMutations.saveTrustedSources}`;
+    const variables = { input: { sources } };
+    fetchGqlData(SETTINGS_ENDPOINT, { variables, query }, callback);
+  },
+
+  removeTrustedSources(sources, callback) {
+    const query = `${AdminFragments.trustedSources}${AdminMutations.removeTrustedSources}`;
+    const variables = { input: { sources } };
+    fetchGqlData(SETTINGS_ENDPOINT, { variables, query }, callback);
+  },
+
   fetchTwitterAccounts(callback) {
     const query = `${AdminFragments.twitterAccounts}${AdminQueries.getTwitterAccounts}`;
     const variables = {};
