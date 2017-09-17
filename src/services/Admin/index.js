@@ -30,80 +30,104 @@ const fbPageFragment = `fragment FortisDashboardView on FacebookPageCollection {
                       }`;
 
 export const SERVICES = {
-    getDashboardSiteDefinition(translationLanguage, callback) {
-        const query = ` ${AdminFragments.siteSettingsFragment}
-                      ${AdminQueries.getPipelineDefinition}`;
+  getDashboardSiteDefinition(translationLanguage, callback) {
+      const query = ` ${AdminFragments.siteSettingsFragment}
+                    ${AdminQueries.getPipelineDefinition}`;
 
-        const variables = { translationLanguage };
-        const host = process.env.REACT_APP_SERVICE_HOST
-        const POST = {
-            url: `${host}/api/settings`,
-            method: "POST",
-            json: true,
-            withCredentials: false,
-            body: { query, variables }
-        };
+      const variables = { translationLanguage };
+      const host = process.env.REACT_APP_SERVICE_HOST
+      const POST = {
+          url: `${host}/api/settings`,
+          method: "POST",
+          json: true,
+          withCredentials: false,
+          body: { query, variables }
+      };
 
-        request(POST, callback);
-    },
+      request(POST, callback);
+  },
 
-    fetchSite(callback) {
-        const query = `${AdminFragments.site}${AdminQueries.getSite}`;
-        const variables = {};
-        fetchGqlData(SETTINGS_ENDPOINT, { variables, query }, callback);
-    },
+  getWatchlist(translationLanguage, callback) {
+      const query = ` ${AdminQueries.getPipelineWatchlist}`;
 
-    getWatchlist(translationLanguage, callback) {
-        const query = ` ${AdminQueries.getPipelineWatchlist}`;
+      const variables = { translationLanguage };
+      const host = process.env.REACT_APP_SERVICE_HOST
+      const POST = {
+          url: `${host}/api/settings`,
+          method: "POST",
+          json: true,
+          withCredentials: false,
+          body: { query, variables }
+      };
 
-        const variables = { translationLanguage };
-        const host = process.env.REACT_APP_SERVICE_HOST
-        const POST = {
-            url: `${host}/api/settings`,
-            method: "POST",
-            json: true,
-            withCredentials: false,
-            body: { query, variables }
-        };
+      request(POST, callback);
+  },
 
-        request(POST, callback);
-    },
+  fetchSite(callback) {
+    const query = `${AdminFragments.site}${AdminQueries.getSite}`;
+    const variables = {};
+    fetchGqlData(SETTINGS_ENDPOINT, { variables, query }, callback);
+  },
 
-    fetchTopics(translationLanguage, callback) {
-        const query = `${AdminFragments.topics}${AdminQueries.getTopics}`;
-        const variables = { translationLanguage };
-        fetchGqlData(SETTINGS_ENDPOINT, { variables, query }, callback);
-    },
+  modifySite(site, callback) {
+    const query = `${AdminMutations.editSite}`;
+    const variables = { input: site };
+    fetchGqlData(SETTINGS_ENDPOINT, { variables, query }, callback);
+  },
 
-    fetchTwitterAccounts(callback) {
-        const query = `${AdminFragments.twitterAccounts}${AdminQueries.getTwitterAccounts}`;
-        const variables = {};
-        fetchGqlData(SETTINGS_ENDPOINT, { variables, query }, callback);
-    },
+  fetchTopics(translationLanguage, callback) {
+    const query = `${AdminFragments.topics}${AdminQueries.getTopics}`;
+    const variables = { translationLanguage };
+    fetchGqlData(SETTINGS_ENDPOINT, { variables, query }, callback);
+  },
 
-    fetchBlacklists(callback) {
-      const query = `${AdminFragments.blacklist}${AdminQueries.getBlacklists}`;
-      const variables = {};
-      fetchGqlData(SETTINGS_ENDPOINT, { variables, query }, callback);
-    },
+  fetchTrustedSources(callback) {
+    const query = `${AdminFragments.trustedSources}${AdminQueries.getTrustedSources}`;
+    const variables = {};
+    fetchGqlData(SETTINGS_ENDPOINT, { variables, query }, callback);
+  },
 
-    saveBlacklists(blacklist, callback) {
-      const query = `${AdminFragments.blacklist}${AdminMutations.saveBlacklists}`;
-      const variables = { input: { filters: blacklist } };
-      fetchGqlData(SETTINGS_ENDPOINT, { variables, query }, callback);
-    },
+  saveTrustedSources(sources, callback) {
+    const query = `${AdminFragments.trustedSources}${AdminMutations.saveTrustedSources}`;
+    const variables = { input: { sources } };
+    fetchGqlData(SETTINGS_ENDPOINT, { variables, query }, callback);
+  },
 
-    removeBlacklists(blacklist, callback) {
-      const query = `${AdminFragments.blacklist}${AdminMutations.removeBlacklists}`;
-      const variables = { input: { filters: blacklist } };
-      fetchGqlData(SETTINGS_ENDPOINT, { variables, query }, callback);
-    },
+  removeTrustedSources(sources, callback) {
+    const query = `${AdminFragments.trustedSources}${AdminMutations.removeTrustedSources}`;
+    const variables = { input: { sources } };
+    fetchGqlData(SETTINGS_ENDPOINT, { variables, query }, callback);
+  },
 
-    fetchStreams(callback) {
-        const query = `${AdminFragments.streams}${AdminQueries.getStreams}`;
-        const variables = {};
-        fetchGqlData(SETTINGS_ENDPOINT, { variables, query }, callback);
-    },
+  fetchTwitterAccounts(callback) {
+    const query = `${AdminFragments.twitterAccounts}${AdminQueries.getTwitterAccounts}`;
+    const variables = {};
+    fetchGqlData(SETTINGS_ENDPOINT, { variables, query }, callback);
+  },
+
+  fetchBlacklists(callback) {
+    const query = `${AdminFragments.blacklist}${AdminQueries.getBlacklists}`;
+    const variables = {};
+    fetchGqlData(SETTINGS_ENDPOINT, { variables, query }, callback);
+  },
+
+  saveBlacklists(blacklist, callback) {
+    const query = `${AdminFragments.blacklist}${AdminMutations.saveBlacklists}`;
+    const variables = { input: { filters: blacklist } };
+    fetchGqlData(SETTINGS_ENDPOINT, { variables, query }, callback);
+  },
+
+  removeBlacklists(blacklist, callback) {
+    const query = `${AdminFragments.blacklist}${AdminMutations.removeBlacklists}`;
+    const variables = { input: { filters: blacklist } };
+    fetchGqlData(SETTINGS_ENDPOINT, { variables, query }, callback);
+  },
+
+  fetchStreams(callback) {
+    const query = `${AdminFragments.streams}${AdminQueries.getStreams}`;
+    const variables = {};
+    fetchGqlData(SETTINGS_ENDPOINT, { variables, query }, callback);
+  },
 
   saveStreams(streams, callback) {
     const query = `${AdminFragments.streams}${AdminMutations.saveStreams}`;
@@ -208,27 +232,6 @@ export const SERVICES = {
         const host = process.env.REACT_APP_SERVICE_HOST
         const POST = {
             url: `${host}/api/edges`,
-            method: "POST",
-            json: true,
-            withCredentials: false,
-            body: { query, variables }
-        };
-
-        request(POST, callback);
-    },
-
-    editSite(site, callback) {
-        const query = `mutation EditSite($input: EditableSiteSettings!) {
-          editSite(input: $input) {
-            name
-          }
-        }`;
-
-        const variables = { input: site };
-
-        const host = process.env.REACT_APP_SERVICE_HOST
-        const POST = {
-            url: `${host}/api/settings`,
             method: "POST",
             json: true,
             withCredentials: false,

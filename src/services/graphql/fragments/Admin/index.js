@@ -48,6 +48,16 @@ export const topics = `fragment TopicsView on TermCollection {
   }
 }`;
 
+export const trustedSources = `fragment TrustedSourcesView on TrustedSourcesCollection {
+  sources {
+    rowKey
+    pipelineKey
+    externalSourceId
+    sourceType
+    rank
+  }
+}`;
+
 export const twitterAccounts = `fragment TwitterAccountsView on TwitterAccountCollection {
   accounts {
     userIds

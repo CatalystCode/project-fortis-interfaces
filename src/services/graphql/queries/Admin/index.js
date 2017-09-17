@@ -58,6 +58,12 @@ export const getTopics = `query SiteTerms($translationLanguage: String) {
   }
 }`;
 
+export const getTrustedSources = `query TrustedSources {
+  trustedSources {
+    ...TrustedSourcesView
+  }
+}`;
+
 export const getTwitterAccounts = `query TwitterAccounts {
   twitterAccounts {
     ...TwitterAccountsView
