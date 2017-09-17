@@ -97,7 +97,7 @@ export default class TypeaheadSearch extends React.Component {
         console.error(`Error while fetching sources matching '${value}': ${err}`);
         callback([]);
       } else {
-        const suggestions = sources.body.data.trustedsources.sources
+        const suggestions = sources.body.data.trustedSources.sources
           .map(suggestion => {
             const { externalsourceid, pipelinekey } = suggestion;
 

@@ -66,7 +66,7 @@ export const getTwitterAccounts = `query TwitterAccounts {
 }`;
 
 export const getTrustedSources = `query TrustedSources($pipelinekeys: [String]!, $sourcename: String) {
-  trustedsources(pipelinekeys: $pipelinekeys, sourcename: $sourcename) {
+  trustedSources(pipelinekeys: $pipelinekeys, sourcename: $sourcename) {
     ...TrustedSourcesView
   }
 }`;
