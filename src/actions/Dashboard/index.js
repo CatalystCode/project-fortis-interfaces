@@ -41,7 +41,7 @@ function fetchFullChartData(fromDate, toDate, periodType, dataSource, maintopic,
     bbox, zoomLevel, conjunctivetopics, externalsourceid, timeseriesmaintopics, includeCsv, callback) {
 
     DashboardServices.getChartVisualizationData(periodType, maintopic, dataSource, fromDate, toDate, 
-        bbox, zoomLevel, conjunctivetopics, externalsourceid, timeseriesmaintopics, !!includeCsv,
+        bbox, zoomLevel, conjunctivetopics || [], externalsourceid, timeseriesmaintopics, !!includeCsv,
         (err, response, body) => ResponseHandler(err, response, body, callback));
 }
 
