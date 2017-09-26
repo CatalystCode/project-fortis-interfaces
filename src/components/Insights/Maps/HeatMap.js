@@ -107,7 +107,7 @@ export default class HeatMap extends React.Component {
   }
 
   render() {
-    const { maxbounds, defaultZoom, mapLoaded } = this.state;
+    const { maxbounds, defaultZoom } = this.state;
     const { selectedplace } = this.props;
     const maxzoom = defaultZoom + constants.MAP.MAXZOOM;
 
