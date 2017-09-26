@@ -117,7 +117,6 @@ export default class MarkerClusterGroup extends React.Component {
       zoomToBoundsOnClick: true,
       showCoverageOnHover: true,
       enableDefaultStyle: true,
-      chunkedLoading: true,
       iconCreateFunction: this.clusterIconFunction,
       singleMarkerMode: true
     };

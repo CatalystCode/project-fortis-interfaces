@@ -7,7 +7,6 @@ import ActivityFeed from './ActivityFeed';
 import CsvExporter from './CsvExporter';
 import TopicCloud from './TopicCloud';
 import TimeSeriesGraph from './TimeSeriesGraph';
-import PopularTermsChart from './PopularTermsChart';
 import PopularLocationsChart from './PopularLocationsChart';
 import PopularSourcesChart from './PopularSourcesChart';
 import ReactGridLayout from 'react-grid-layout';

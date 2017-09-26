@@ -69,7 +69,7 @@ export default class HeatMap extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return hasChanged(this.props, nextProps) || nextState.mapLoaded !== this.state.mapLoaded;
+    return hasChanged(this.props, nextProps);
   }
 
   componentWillReceiveProps(nextProps) {
