@@ -15,11 +15,13 @@ export default class HeatMap extends React.Component {
 
     const bounds = targetBbox.length && targetBbox.length === 4 ? [[targetBbox[1], targetBbox[0]], [targetBbox[3], targetBbox[2]]] : [];
     this.onViewportChanged = this.onViewportChanged.bind(this);
+    this.whenReady = this.whenReady.bind(this);
     this.updateBounds = this.asyncInvokeDashboardRefresh.bind(this);
     const maxbounds = targetBbox.length && targetBbox.length === 4 ? [[targetBbox[0], targetBbox[1]], [targetBbox[2], targetBbox[3]]] : [];
 
     this.state = {
       bounds: bounds,
+      mapLoaded: false,
       placeid: "",
       defaultZoom: parseFloat(defaultZoom || 6),
       maxbounds: maxbounds
@@ -69,7 +71,7 @@ export default class HeatMap extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return hasChanged(this.props, nextProps);
+    return hasChanged(this.props, nextProps) || nextState.mapLoaded !== this.state.mapLoaded;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -106,8 +108,12 @@ export default class HeatMap extends React.Component {
     />;
   }
 
+  whenReady(map){
+    this.setState({mapLoaded: true});
+  }
+
   render() {
-    const { maxbounds, defaultZoom } = this.state;
+    const { maxbounds, defaultZoom, mapLoaded } = this.state;
     const { selectedplace } = this.props;
     const maxzoom = defaultZoom + constants.MAP.MAXZOOM;
 
@@ -116,6 +122,7 @@ export default class HeatMap extends React.Component {
         onzoomend={this.onViewportChanged}
         ondragend={this.onViewportChanged}
         bounds={this.state.bounds}
+        whenReady={this.whenReady}
         ref="map"
         id="leafletMap"
         maxBounds={maxbounds}
@@ -134,11 +141,13 @@ export default class HeatMap extends React.Component {
 
         {selectedplace.placeid ? this.renderRectangle(selectedplace.placebbox) : undefined}
 
-        <MarkerClusterGroup
-          clusterColorField={"avgsentiment"}
-          clusterValueField={"mentions"}
-          {...this.props}
-        />
+        {mapLoaded ? 
+          <MarkerClusterGroup
+            clusterColorField={"avgsentiment"}
+            clusterValueField={"mentions"}
+            {...this.props}
+          />
+        : undefined}
       </Map>
     )
   }

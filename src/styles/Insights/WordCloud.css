@@ -1,0 +1,152 @@
+/**
+ * 
+ * The style of naming is loosely based on BEM
+ * 
+ */
+
+/**
+ * Prepare root fontSize for the usage of REM-values
+ * Use Border-box
+ */
+ html {
+    font-size: 100%;
+    box-sizing: border-box;
+  }
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+  
+  /**
+   * Take care of the with of the cloud. Currently not responsive
+   */
+  body {
+    min-width: 500px;
+  }
+  
+  /**
+   * Composed components
+   */
+  .wordcloud {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 55rem;
+  
+    background-color: #fff;
+    margin: 0 auto;
+  }
+  .wordcloud__title {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 100%;
+  }
+  
+  /**
+   * Layout
+   */
+  .wordcloud__container_cloud {
+    max-width: 100%;
+    flex: 0 0 400px;
+    text-align: center;
+  }
+  .wordcloud__container_sidebar {
+    flex: 0 1 25rem;
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  
+    text-align: left;
+  }
+  
+  
+  
+  /**
+   * Cloud
+   */
+  .wordcloud__cloud {}
+  .wordcloud__cloud_label {}
+  .wordcloud__cloud_label:hover {
+    cursor: pointer;
+  }
+  .wordcloud__cloud_label--is-active {
+    text-decoration: underline;
+  }
+  .wordcloud__cloud_label--color-grey {
+    fill: #9E9E9E;
+  }
+  .wordcloud__cloud_label--color-green {
+    fill: #4CAF50;
+  }
+  .wordcloud__cloud_label--color-red {
+    fill: #F44336;
+  }
+
+  .wordcloud__cloud_label--color-yellow {
+    fill: #f0c20c;
+  }
+
+  .worcloud__hint {
+    margin: .5rem 0;
+    font-size: .85rem;
+    color: #ccc;
+    font-style: italic;
+  }
+  
+  /**
+   * Sidebar
+   */
+  .wordcloud__sidebar {
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin: 2rem 2rem;
+  }
+  .wordcloud__sidebar_title {
+    font-size: 1.13rem;
+    padding: .5rem;
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #d8d8d8;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+  
+    margin: 0;
+  }
+  .wordcloud__description {
+    padding: 0 1rem;
+    line-height: 1.5;
+  }
+  
+  /**
+   * Sidebar Metatable
+   */
+  .wordcloud__sidebar_metatable {
+    width: 100%;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+  }
+  .wordcloud__sidebar_metatable_row {
+    border-bottom: 1px solid #E0E0E0;
+  }
+  .wordcloud__sidebar_metatable_label,
+  .wordcloud__sidebar_metatable_value {
+    padding: 1rem;
+  }
+  .wordcloud__sidebar_metatable_label {
+    color: #000;
+  }
+  .wordcloud__sidebar_metatable_value { 
+    font-weight: bold;
+  }
+  .wordcloud__sidebar_metatable_value--color-grey {
+    color: #9E9E9E;
+  }
+  .wordcloud__sidebar_metatable_value--color-green {
+    color: #4CAF50;
+  }
+  .wordcloud__sidebar_metatable_value--color-red {
+    color: #F44336;
+  }
+  .wordcloud__sidebar_metatable_value--color-yellow {
+    color: #f0c20c;
+  }
