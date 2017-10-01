@@ -127,6 +127,7 @@ export const DataStore = Fluxxor.createStore({
             this.dataStore.timeSeriesCsv = (mutatedTimeSeries.csv && mutatedTimeSeries.csv.url) || "";
             
             const timeseriesMap = makeMap(graphData, item=>item.date, item=>{
+                // eslint-disable-next-line
                 let timeSeriesEntry = {date: moment.utc(new Number(item.date)).format(dateFormat)};
                 timeSeriesEntry[item.name] = item.mentions;
 
