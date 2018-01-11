@@ -1,3 +1,9 @@
+**This repository is outdated and was migrated to [project-fortis](https://github.com/CatalystCode/project-fortis).**
+
+----
+----
+---
+
 # project-fortis-interfaces
 
 [![CI status](https://travis-ci.org/CatalystCode/project-fortis-interfaces.svg?branch=master)](https://travis-ci.org/CatalystCode/project-fortis-interfaces)
